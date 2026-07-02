@@ -276,8 +276,8 @@ function Hero() {
         style={{ backgroundImage: "url('/hero-port.png')" }}
       >
         {/* Dark overlays to ensure text readability & smooth glow blend */}
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/85 via-zinc-950/75 to-zinc-950/95" />
-        <div className="absolute inset-0 bg-zinc-950/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/95 via-zinc-950/88 to-zinc-950/98" />
+        <div className="absolute inset-0 bg-zinc-950/50" />
       </div>
 
       {/* Ambient glow */}
