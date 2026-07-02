@@ -257,17 +257,17 @@ function Hero() {
         </p>
 
         {/* CTAs */}
-        <div className="animate-fade-in-up animate-delay-800 mt-8 sm:mt-10 flex flex-col md:flex-row items-center justify-center gap-3">
+        <div className="animate-fade-in-up animate-delay-800 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
           <a
             href="#contact"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 text-sm font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/25 hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/25 hover:-translate-y-0.5"
           >
             Get a Logistics Assessment
             <ArrowRight className="w-4 h-4" />
           </a>
           <a
             href="#about"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border hover:border-foreground/20 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border hover:border-foreground/20 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
           >
             Learn More
             <ChevronDown className="w-4 h-4" />
