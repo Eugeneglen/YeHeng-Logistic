@@ -270,6 +270,16 @@ function Navbar({
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Port background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/hero-port.png')" }}
+      >
+        {/* Dark overlays to ensure text readability & smooth glow blend */}
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/85 via-zinc-950/75 to-zinc-950/95" />
+        <div className="absolute inset-0 bg-zinc-950/40" />
+      </div>
+
       {/* Ambient glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-600/5 rounded-full blur-[120px] pointer-events-none" />
 
