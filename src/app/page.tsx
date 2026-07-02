@@ -1085,6 +1085,7 @@ function Contact() {
     name: "",
     email: "",
     company: "",
+    phone: "",
     message: "",
   });
   const [submitting, setSubmitting] = useState(false);
@@ -1109,7 +1110,7 @@ function Contact() {
         });
         if (res.ok) {
           setSubmitted(true);
-          setFormState({ name: "", email: "", company: "", message: "" });
+          setFormState({ name: "", email: "", company: "", phone: "", message: "" });
         }
       } catch {
         // Silently handle
@@ -1203,21 +1204,40 @@ function Contact() {
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="company"
-                    className="text-sm font-medium text-muted-foreground"
-                  >
-                    Company
-                  </label>
-                  <Input
-                    id="company"
-                    name="company"
-                    value={formState.company}
-                    onChange={handleChange}
-                    placeholder="Your company name"
-                    className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
-                  />
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="company"
+                      className="text-sm font-medium text-muted-foreground"
+                    >
+                      Company
+                    </label>
+                    <Input
+                      id="company"
+                      name="company"
+                      value={formState.company}
+                      onChange={handleChange}
+                      placeholder="Your company name"
+                      className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="phone"
+                      className="text-sm font-medium text-muted-foreground"
+                    >
+                      Phone
+                    </label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formState.phone}
+                      onChange={handleChange}
+                      placeholder="+65 XXXX XXXX"
+                      className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <label
