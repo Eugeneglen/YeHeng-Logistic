@@ -1022,7 +1022,7 @@ function Projects({
   const ref = useReveal();
 
   return (
-    <section id="projects" ref={ref} className="relative py-24 sm:py-32 bg-[#1a0f05]">
+    <section id="projects" ref={ref} className="relative py-24 sm:py-32 bg-[#2d1a08]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
