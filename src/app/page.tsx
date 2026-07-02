@@ -161,12 +161,12 @@ function Navbar({
         </a>
 
         {/* Desktop links — flush right */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="flex items-center gap-1">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5"
+                className="hidden md:block px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5"
               >
                 {l.label}
               </a>
@@ -174,7 +174,7 @@ function Navbar({
             {/* Projects dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 inline-flex items-center gap-1">
+                <button className="hidden md:inline-flex px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 items-center gap-1">
                   Projects
                   <ChevronDown className="w-3.5 h-3.5 opacity-50" />
                 </button>
@@ -199,13 +199,10 @@ function Navbar({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-        </nav>
-
-        {/* Mobile menu toggle */}
-        <div className="flex items-center gap-3">
+          {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground ml-1"
             aria-label="Toggle menu"
           >
             <div className="space-y-1.5">
@@ -226,7 +223,7 @@ function Navbar({
               />
             </div>
           </button>
-        </div>
+        </nav>
       </div>
 
       {/* Mobile menu */}
