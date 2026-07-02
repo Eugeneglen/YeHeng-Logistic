@@ -1374,7 +1374,7 @@ function Footer() {
             Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
             (SLA). All business transactions are done in accordance to SLA Standard
             Trading Conditions. A Singapore Logistics Association Standard Trading
-            Conditions copy is available on request.
+            Conditions copy is available on request. ©2026 by YE HENG LOGISTIC PTE LTD. All rights reserved.
           </p>
         </div>
       </div>
