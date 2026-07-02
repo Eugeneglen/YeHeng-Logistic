@@ -237,20 +237,23 @@
 /* 3. Ambient glow blobs */
 @keyframes glow-drift-1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(80px, -60px) scale(1.1); }
-  50%  { transform: translate(-40px, 40px) scale(0.95); }
-  75%  { transform: translate(60px, 80px) scale(1.05); }
+  20%  { transform: translate(150px, -120px) scale(1.25); }
+  40%  { transform: translate(-80px, 60px) scale(0.8); }
+  60%  { transform: translate(120px, 100px) scale(1.2); }
+  80%  { transform: translate(-60px, -80px) scale(0.85); }
 }
 @keyframes glow-drift-2 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(-70px, 50px) scale(1.08); }
-  50%  { transform: translate(50px, -30px) scale(0.92); }
-  75%  { transform: translate(-30px, -70px) scale(1.04); }
+  20%  { transform: translate(-130px, 100px) scale(1.2); }
+  40%  { transform: translate(90px, -60px) scale(0.75); }
+  60%  { transform: translate(-50px, -110px) scale(1.15); }
+  80%  { transform: translate(70px, 70px) scale(0.8); }
 }
 @keyframes glow-drift-3 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(60px, 40px) scale(1.06); }
-  66%  { transform: translate(-50px, -60px) scale(0.94); }
+  25%  { transform: translate(110px, 80px) scale(1.22); }
+  50%  { transform: translate(-90px, -100px) scale(0.78); }
+  75%  { transform: translate(70px, 50px) scale(1.18); }
 }
 
 .bg-glow-blob {
@@ -266,7 +269,7 @@
   width: 600px;
   height: 600px;
   background: oklch(0.646 0.222 41.116 / 0.15);
-  animation: glow-drift-1 30s ease-in-out infinite;
+  animation: glow-drift-1 22s ease-in-out infinite;
 }
 .bg-glow-blob-2 {
   top: 45%;
@@ -274,7 +277,7 @@
   width: 700px;
   height: 700px;
   background: oklch(0.646 0.222 41.116 / 0.1);
-  animation: glow-drift-2 40s ease-in-out infinite;
+  animation: glow-drift-2 28s ease-in-out infinite;
 }
 .bg-glow-blob-3 {
   bottom: 5%;
@@ -282,5 +285,5 @@
   width: 550px;
   height: 550px;
   background: oklch(0.985 0 0 / 0.05);
-  animation: glow-drift-3 35s ease-in-out infinite;
+  animation: glow-drift-3 25s ease-in-out infinite;
 }
