@@ -859,7 +859,7 @@ function InfographicButton({
       </button>
 
       <Dialog open={show} onOpenChange={setShow}>
-        <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-zinc-950 border-border">
+        <DialogContent className="max-w-[1200px] w-[96vw] p-0 overflow-hidden bg-zinc-950 border-border">
           <DialogTitle className="sr-only">{label}</DialogTitle>
           <div className="relative">
             <button
