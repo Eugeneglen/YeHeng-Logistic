@@ -12,6 +12,11 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -39,6 +44,7 @@ import {
   MapPinned,
   Target,
   TrendingUp,
+  ImageIcon,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -829,6 +835,54 @@ const projects: Project[] = [
 const projectsData = projects; // alias for passing to components
 
 /* ------------------------------------------------------------------ */
+/*  Infographic Dialog (G.E.M. Concert Tour)                          */
+/* ------------------------------------------------------------------ */
+function InfographicButton({
+  label,
+  imageSrc,
+  altText,
+}: {
+  label: string;
+  imageSrc: string;
+  altText: string;
+}) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <button
+        onClick={() => setShow(true)}
+        className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-muted-foreground hover:text-foreground border border-border hover:border-foreground/20 rounded-xl transition-all duration-300 hover:-translate-y-0.5 bg-white/[0.03] hover:bg-white/[0.06]"
+      >
+        <ImageIcon className="w-4 h-4" />
+        {label}
+      </button>
+
+      <Dialog open={show} onOpenChange={setShow}>
+        <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-zinc-950 border-border">
+          <DialogTitle className="sr-only">{label}</DialogTitle>
+          <div className="relative">
+            <button
+              onClick={() => setShow(false)}
+              className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 hover:bg-black/80 text-white/70 hover:text-white transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageSrc}
+              alt={altText}
+              className="w-full h-auto"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Project Detail Sheet                                               */
 /* ------------------------------------------------------------------ */
 function ProjectDetail({
@@ -972,7 +1026,7 @@ function ProjectDetail({
           </div>
 
           {/* CTA */}
-          <div className="pt-2">
+          <div className="pt-2 flex flex-wrap items-center gap-3">
             <a
               href="#contact"
               onClick={() => onOpenChange(false)}
@@ -981,6 +1035,20 @@ function ProjectDetail({
               Discuss a Similar Project
               <ArrowRight className="w-4 h-4" />
             </a>
+            {project.id === "gem-concert-tour" && (
+              <InfographicButton
+                label="Orchestrating the Stage"
+                imageSrc="/infographic-gem-concert.png"
+                altText="Orchestrating the Stage: G.E.M. Concert Tour logistics infographic"
+              />
+            )}
+            {project.id === "singapore-grand-prix" && (
+              <InfographicButton
+                label="Precision Under Pressure"
+                imageSrc="/infographic-grandprix.png"
+                altText="Precision Under Pressure: Singapore Grand Prix logistics infographic"
+              />
+            )}
           </div>
         </div>
       </SheetContent>
