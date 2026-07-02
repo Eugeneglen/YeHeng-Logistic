@@ -148,10 +148,8 @@ function Navbar({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo + Desktop links — flush left */}
-        <div className="flex items-center gap-8">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
+        {/* Logo */}
+        <a href="#" className="flex items-center gap-3 group">
             <img
               src="/logo.png"
               alt="YeHeng Logistics"
@@ -167,8 +165,8 @@ function Navbar({
             </div>
           </a>
 
-          {/* Desktop links */}
-          <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop links — flush right */}
+        <nav className="hidden md:flex items-center gap-1">
             {links.map((l) => (
               <a
                 key={l.href}
@@ -187,7 +185,7 @@ function Navbar({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                align="start"
+                align="end"
                 className="bg-card border-border w-64"
               >
                 {projectsData.map((p) => (
@@ -206,8 +204,7 @@ function Navbar({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          </nav>
-        </div>
+        </nav>
 
         {/* Mobile menu toggle */}
         <div className="flex items-center gap-3">
