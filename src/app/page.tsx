@@ -1089,12 +1089,12 @@ function Contact() {
   );
 
   return (
-    <section id="contact" ref={ref} className="relative py-24 sm:py-32">
+    <section id="contact" ref={ref} className="relative py-16 sm:py-32">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
             Next Step
           </p>
@@ -1246,11 +1246,11 @@ function Contact() {
           </div>
 
           {/* Contact info */}
-          <div className="reveal reveal-delay-2 lg:col-span-2 space-y-6">
-            <div className="p-6 rounded-2xl border border-border bg-card/50">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="reveal reveal-delay-2 lg:col-span-2 space-y-4 sm:space-y-6">
+            <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card/50">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 {/* Left column: Person & Phone */}
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
                       <Users className="w-5 h-5 text-amber-500" />
@@ -1278,7 +1278,7 @@ function Contact() {
                   </div>
                 </div>
                 {/* Right column: Email & Office */}
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
                       <Mail className="w-5 h-5 text-amber-500" />
@@ -1313,9 +1313,9 @@ function Contact() {
             </div>
 
             {/* Quick value props */}
-            <div className="p-6 rounded-2xl border border-amber-600/20 bg-amber-600/5">
-              <h4 className="font-semibold text-sm mb-4">Why choose YeHeng?</h4>
-              <ul className="space-y-3">
+            <div className="p-4 sm:p-6 rounded-2xl border border-amber-600/20 bg-amber-600/5">
+              <h4 className="font-semibold text-sm mb-3 sm:mb-4">Why choose YeHeng?</h4>
+              <ul className="space-y-2 sm:space-y-3">
                 {[
                   "Human-verified, proactive updates",
                   "One point of contact, one invoice",
