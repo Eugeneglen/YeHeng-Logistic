@@ -1364,7 +1364,7 @@ function Footer() {
             </div>
           </div>
           <p className="text-xs text-muted-foreground text-center">
-            Precision. Control. Personal. &mdash; Singapore 2025
+            Precision. Control. Personal. &mdash; Singapore 2026
           </p>
           <div className="flex items-center gap-4 text-muted-foreground">
             <a href="#about" className="text-xs hover:text-foreground transition-colors">
