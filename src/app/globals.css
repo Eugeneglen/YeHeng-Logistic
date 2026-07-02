@@ -91,9 +91,11 @@
     background-image: radial-gradient(circle, oklch(1 0 0 / 0.145) 1px, transparent 1px);
     background-size: 36px 36px;
     background-attachment: fixed;
+    overflow-x: hidden;
   }
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 }
 

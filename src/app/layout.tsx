@@ -52,7 +52,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
         suppressHydrationWarning
       >
-        <div className="relative">
+        <div className="relative overflow-x-hidden">
           {children}
         </div>
         <BackgroundTexture />
