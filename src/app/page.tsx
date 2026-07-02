@@ -1049,6 +1049,13 @@ function ProjectDetail({
                 altText="Precision Under Pressure: Singapore Grand Prix logistics infographic"
               />
             )}
+            {project.id === "sumec-container-operations" && (
+              <InfographicButton
+                label="Prudence for Advancement"
+                imageSrc="/infographic-container.png"
+                altText="Prudence for Advancement: SUMEC Container Operations logistics infographic"
+              />
+            )}
           </div>
         </div>
       </SheetContent>
