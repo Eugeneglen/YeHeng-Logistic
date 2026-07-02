@@ -287,3 +287,8 @@
   background: oklch(0.985 0 0 / 0.05);
   animation: glow-drift-3 25s ease-in-out infinite;
 }
+
+/* Projects section warm background */
+.bg-projects-warm {
+  background-color: #2d1a08;
+}
