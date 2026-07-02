@@ -274,13 +274,7 @@ function Hero() {
           </a>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fade-in-up animate-delay-800">
-          <div className="w-5 h-8 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-1.5">
-            <div className="w-1 h-2 rounded-full bg-amber-500 animate-bounce" />
-          </div>
         </div>
-      </div>
     </section>
   );
 }
