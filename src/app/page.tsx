@@ -206,15 +206,8 @@ function Navbar({
           </DropdownMenu>
         </nav>
 
-        {/* CTA + Mobile */}
+        {/* Mobile menu toggle */}
         <div className="flex items-center gap-3">
-          <a
-            href="#contact"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/20"
-          >
-            Get Started
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 text-muted-foreground hover:text-foreground"
@@ -273,13 +266,6 @@ function Navbar({
               </button>
             ))}
           </div>
-          <a
-            href="#contact"
-            onClick={() => setMobileOpen(false)}
-            className="block px-3 py-2.5 text-sm font-medium text-amber-500 hover:text-amber-400"
-          >
-            Get Started →
-          </a>
         </nav>
       </div>
     </header>
