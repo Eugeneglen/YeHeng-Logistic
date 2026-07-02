@@ -1,0 +1,1496 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useRef, useState, useCallback } from "react";
+     4→import { Button } from "@/components/ui/button";
+     5→import { Input } from "@/components/ui/input";
+     6→import { Textarea } from "@/components/ui/textarea";
+     7→import {
+     8→  Sheet,
+     9→  SheetContent,
+    10→  SheetHeader,
+    11→  SheetTitle,
+    12→  SheetDescription,
+    13→} from "@/components/ui/sheet";
+    14→import {
+    15→  Dialog,
+    16→  DialogContent,
+    17→  DialogTitle,
+    18→} from "@/components/ui/dialog";
+    19→import {
+    20→  DropdownMenu,
+    21→  DropdownMenuContent,
+    22→  DropdownMenuItem,
+    23→  DropdownMenuTrigger,
+    24→} from "@/components/ui/dropdown-menu";
+    25→import {
+    26→  Phone,
+    27→  Mail,
+    28→  MapPin,
+    29→  ArrowRight,
+    30→  Shield,
+    31→  Globe,
+    32→  Truck,
+    33→  Clock,
+    34→  Eye,
+    35→  Users,
+    36→  CheckCircle2,
+    37→  ChevronDown,
+    38→  ChevronUp,
+    39→  Package,
+    40→  Route,
+    41→  Warehouse,
+    42→  X,
+    43→  Calendar,
+    44→  MapPinned,
+    45→  Target,
+    46→  TrendingUp,
+    47→  ImageIcon,
+    48→} from "lucide-react";
+    49→
+    50→/* ------------------------------------------------------------------ */
+    51→/*  Scroll-reveal hook                                                 */
+    52→/* ------------------------------------------------------------------ */
+    53→function useReveal() {
+    54→  const ref = useRef<HTMLDivElement>(null);
+    55→
+    56→  useEffect(() => {
+    57→    const el = ref.current;
+    58→    if (!el) return;
+    59→    const children = el.querySelectorAll(".reveal");
+    60→    const observer = new IntersectionObserver(
+    61→      (entries) => {
+    62→        entries.forEach((e) => {
+    63→          if (e.isIntersecting) {
+    64→            e.target.classList.add("visible");
+    65→            observer.unobserve(e.target);
+    66→          }
+    67→        });
+    68→      },
+    69→      { threshold: 0.15 }
+    70→    );
+    71→    children.forEach((c) => observer.observe(c));
+    72→    return () => observer.disconnect();
+    73→  }, []);
+    74→
+    75→  return ref;
+    76→}
+    77→
+    78→/* ------------------------------------------------------------------ */
+    79→/*  Animated counter                                                  */
+    80→/* ------------------------------------------------------------------ */
+    81→function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
+    82→  const [count, setCount] = useState(0);
+    83→  const ref = useRef<HTMLSpanElement>(null);
+    84→  const started = useRef(false);
+    85→
+    86→  useEffect(() => {
+    87→    const el = ref.current;
+    88→    if (!el) return;
+    89→    const observer = new IntersectionObserver(
+    90→      ([entry]) => {
+    91→        if (entry.isIntersecting && !started.current) {
+    92→          started.current = true;
+    93→          const duration = 2000;
+    94→          const startTime = performance.now();
+    95→          const step = (now: number) => {
+    96→            const elapsed = now - startTime;
+    97→            const progress = Math.min(elapsed / duration, 1);
+    98→            const eased = 1 - Math.pow(1 - progress, 3);
+    99→            setCount(Math.round(eased * end));
+   100→            if (progress < 1) requestAnimationFrame(step);
+   101→          };
+   102→          requestAnimationFrame(step);
+   103→        }
+   104→      },
+   105→      { threshold: 0.5 }
+   106→    );
+   107→    observer.observe(el);
+   108→    return () => observer.disconnect();
+   109→  }, [end]);
+   110→
+   111→  return (
+   112→    <span ref={ref}>
+   113→      {count}
+   114→      {suffix}
+   115→    </span>
+   116→  );
+   117→}
+   118→
+   119→/* ------------------------------------------------------------------ */
+   120→/*  Navigation                                                        */
+   121→/* ------------------------------------------------------------------ */
+   122→function Navbar({
+   123→  onSelectProject,
+   124→}: {
+   125→  onSelectProject?: (id: string) => void;
+   126→}) {
+   127→  const [scrolled, setScrolled] = useState(false);
+   128→  const [mobileOpen, setMobileOpen] = useState(false);
+   129→
+   130→  useEffect(() => {
+   131→    const onScroll = () => setScrolled(window.scrollY > 60);
+   132→    window.addEventListener("scroll", onScroll, { passive: true });
+   133→    return () => window.removeEventListener("scroll", onScroll);
+   134→  }, []);
+   135→
+   136→  const links = [
+   137→    { label: "About", href: "#about" },
+   138→    { label: "Services", href: "#services" },
+   139→    { label: "Industries", href: "#industries" },
+   140→    { label: "Contact", href: "#contact" },
+   141→  ];
+   142→
+   143→  const handleProjectSelect = (id: string) => {
+   144→    onSelectProject?.(id);
+   145→    setMobileOpen(false);
+   146→  };
+   147→
+   148→  return (
+   149→    <header
+   150→      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+   151→        scrolled
+   152→          ? "bg-background/90 backdrop-blur-xl border-b border-border shadow-lg shadow-black/20"
+   153→          : "bg-transparent"
+   154→      }`}
+   155→    >
+   156→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+   157→        {/* Logo */}
+   158→        <a href="#" className="flex items-center gap-3 group">
+   159→          <img
+   160→            src="/logo.png"
+   161→            alt="YeHeng Logistics"
+   162→            className="w-8 h-8 object-contain transition-transform duration-300 group-hover:scale-105 brightness-0 invert"
+   163→          />
+   164→          <span className="text-sm font-semibold tracking-wide text-foreground">
+   165→            YeHeng Logistics Pte Ltd
+   166→          </span>
+   167→        </a>
+   168→
+   169→        {/* Desktop links — flush right */}
+   170→        <nav className="flex items-center gap-1">
+   171→            {links.map((l) => (
+   172→              <a
+   173→                key={l.href}
+   174→                href={l.href}
+   175→                className="hidden md:block px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5"
+   176→              >
+   177→                {l.label}
+   178→              </a>
+   179→            ))}
+   180→            {/* Projects dropdown */}
+   181→            <DropdownMenu>
+   182→              <DropdownMenuTrigger asChild>
+   183→                <button className="hidden md:inline-flex px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 items-center gap-1">
+   184→                  Projects
+   185→                  <ChevronDown className="w-3.5 h-3.5 opacity-50" />
+   186→                </button>
+   187→              </DropdownMenuTrigger>
+   188→              <DropdownMenuContent
+   189→                align="end"
+   190→                className="bg-card border-border w-64"
+   191→              >
+   192→                {projectsData.map((p) => (
+   193→                  <DropdownMenuItem
+   194→                    key={p.id}
+   195→                    onClick={() => handleProjectSelect(p.id)}
+   196→                    className="cursor-pointer py-3 focus:bg-amber-600/10 focus:text-amber-400"
+   197→                  >
+   198→                    <div>
+   199→                      <div className="text-sm font-medium">{p.title}</div>
+   200→                      <div className="text-xs text-muted-foreground mt-0.5">
+   201→                        {p.category}
+   202→                      </div>
+   203→                    </div>
+   204→                  </DropdownMenuItem>
+   205→                ))}
+   206→              </DropdownMenuContent>
+   207→            </DropdownMenu>
+   208→          {/* Mobile menu toggle */}
+   209→          <button
+   210→            onClick={() => setMobileOpen(!mobileOpen)}
+   211→            className="md:hidden p-2 text-muted-foreground hover:text-foreground ml-1"
+   212→            aria-label="Toggle menu"
+   213→          >
+   214→            <div className="space-y-1.5">
+   215→              <span
+   216→                className={`block w-5 h-0.5 bg-current transition-transform duration-300 ${
+   217→                  mobileOpen ? "rotate-45 translate-y-2" : ""
+   218→                }`}
+   219→              />
+   220→              <span
+   221→                className={`block w-5 h-0.5 bg-current transition-opacity duration-300 ${
+   222→                  mobileOpen ? "opacity-0" : ""
+   223→                }`}
+   224→              />
+   225→              <span
+   226→                className={`block w-5 h-0.5 bg-current transition-transform duration-300 ${
+   227→                  mobileOpen ? "-rotate-45 -translate-y-2" : ""
+   228→                }`}
+   229→              />
+   230→            </div>
+   231→          </button>
+   232→        </nav>
+   233→      </div>
+   234→
+   235→      {/* Mobile menu */}
+   236→      <div
+   237→        className={`md:hidden overflow-hidden transition-all duration-300 ${
+   238→          mobileOpen ? "max-h-96" : "max-h-0"
+   239→        }`}
+   240→      >
+   241→        <nav className="px-4 pb-4 pt-2 space-y-1 bg-background/95 backdrop-blur-xl border-t border-border">
+   242→          {links.map((l) => (
+   243→            <a
+   244→              key={l.href}
+   245→              href={l.href}
+   246→              onClick={() => setMobileOpen(false)}
+   247→              className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-lg transition-colors"
+   248→            >
+   249→              {l.label}
+   250→            </a>
+   251→          ))}
+   252→          {/* Mobile project sub-links */}
+   253→          <div className="pl-3 border-l-2 border-border ml-3 space-y-0.5 mt-2">
+   254→            <p className="px-3 py-1 text-[10px] font-semibold tracking-wider uppercase text-amber-500">
+   255→              Projects
+   256→            </p>
+   257→            {projectsData.map((p) => (
+   258→              <button
+   259→                key={p.id}
+   260→                onClick={() => handleProjectSelect(p.id)}
+   261→                className="block w-full text-left px-3 py-2 text-sm text-muted-foreground hover:text-amber-400 hover:bg-white/5 rounded-lg transition-colors"
+   262→              >
+   263→                {p.title}
+   264→              </button>
+   265→            ))}
+   266→          </div>
+   267→        </nav>
+   268→      </div>
+   269→    </header>
+   270→  );
+   271→}
+   272→
+   273→/* ------------------------------------------------------------------ */
+   274→/*  Hero Section                                                      */
+   275→/* ------------------------------------------------------------------ */
+   276→function Hero() {
+   277→  return (
+   278→    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+   279→      {/* Port background image */}
+   280→      <div
+   281→        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+   282→        style={{ backgroundImage: "url('/hero-port.png')" }}
+   283→      >
+   284→        {/* Dark overlays to ensure text readability & smooth glow blend */}
+   285→        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/95 via-zinc-950/88 to-zinc-950/98" />
+   286→        <div className="absolute inset-0 bg-zinc-950/50" />
+   287→      </div>
+   288→
+   289→      {/* Ambient glow */}
+   290→      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-600/5 rounded-full blur-[120px] pointer-events-none" />
+   291→
+   292→      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+   293→        {/* Badge */}
+   294→        <div className="animate-fade-in-up animate-delay-200 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-600/30 bg-amber-600/5 mb-8">
+   295→          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-subtle-pulse" />
+   296→          <span className="text-xs font-medium tracking-wider uppercase text-amber-400">
+   297→            Singapore &amp; Beyond
+   298→          </span>
+   299→        </div>
+   300→
+   301→        {/* Headline */}
+   302→        <h1 className="animate-fade-in-up animate-delay-400 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05]">
+   303→          <span className="block">Precision.</span>
+   304→          <span className="block">Control.</span>
+   305→          <span className="block gradient-text">Personal.</span>
+   306→        </h1>
+   307→
+   308→        {/* Subtitle */}
+   309→        <p className="animate-fade-in-up animate-delay-600 mt-6 sm:mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+   310→          High-Touch Logistics for Singapore &amp; Beyond. We are not an app
+   311→          — we are your external, dedicated logistics department.
+   312→        </p>
+   313→
+   314→        {/* CTAs */}
+   315→        <div className="animate-fade-in-up animate-delay-800 mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
+   316→          <a
+   317→            href="#contact"
+   318→            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-600/25 hover:-translate-y-0.5"
+   319→          >
+   320→            Get a Logistics Assessment
+   321→            <ArrowRight className="w-4 h-4" />
+   322→          </a>
+   323→          <a
+   324→            href="#about"
+   325→            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border hover:border-foreground/20 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+   326→          >
+   327→            Learn More
+   328→            <ChevronDown className="w-4 h-4" />
+   329→          </a>
+   330→        </div>
+   331→
+   332→        </div>
+   333→    </section>
+   334→  );
+   335→}
+   336→
+   337→/* ------------------------------------------------------------------ */
+   338→/*  About / Philosophy Section                                        */
+   339→/* ------------------------------------------------------------------ */
+   340→function About() {
+   341→  const ref = useReveal();
+   342→
+   343→  return (
+   344→    <section id="about" ref={ref} className="relative py-24 sm:py-32">
+   345→      {/* Subtle divider line */}
+   346→      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-amber-600/30 to-transparent" />
+   347→
+   348→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   349→        <div className="max-w-3xl mx-auto text-center">
+   350→          <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
+   351→            The Concierge Standard
+   352→          </p>
+   353→          <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+   354→            In an industry of automated replies,{" "}
+   355→            <span className="gradient-text">we pick up the phone.</span>
+   356→          </h2>
+   357→          <p className="reveal reveal-delay-2 mt-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
+   358→            Established logistics giants prioritize volume, sacrificing
+   359→            visibility and personalized communication. Your shipments become
+   360→            just another ticket in the system.
+   361→          </p>
+   362→          <p className="reveal reveal-delay-3 mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
+   363→            YeHeng Logistics was founded to bring the{" "}
+   364→            <strong className="text-foreground font-semibold">
+   365→              Concierge concept
+   366→            </strong>{" "}
+   367→            to logistics. We combine dedicated internal assets with a vetted
+   368→            partner network for superior service quality.
+   369→          </p>
+   370→        </div>
+   371→
+   372→        {/* Stats */}
+   373→        <div className="reveal reveal-delay-4 mt-16 sm:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+   374→          {[
+   375→            { value: 100, suffix: "%", label: "Control & Accountability" },
+   376→            { value: 24, suffix: "/7", label: "Monitoring & Support" },
+   377→            { value: 1, suffix: "", label: "Invoice, One Contact" },
+   378→            { value: 0, suffix: "", label: "Tickets in a Queue" },
+   379→          ].map((stat) => (
+   380→            <div
+   381→              key={stat.label}
+   382→              className="text-center p-6 rounded-2xl border border-border bg-card/50"
+   383→            >
+   384→              <div className="text-3xl sm:text-4xl font-bold gradient-text">
+   385→                <Counter end={stat.value} suffix={stat.suffix} />
+   386→              </div>
+   387→              <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
+   388→                {stat.label}
+   389→              </p>
+   390→            </div>
+   391→          ))}
+   392→        </div>
+   393→      </div>
+   394→    </section>
+   395→  );
+   396→}
+   397→
+   398→/* ------------------------------------------------------------------ */
+   399→/*  Hybrid Model Section                                              */
+   400→/* ------------------------------------------------------------------ */
+   401→function HybridModel() {
+   402→  const ref = useReveal();
+   403→
+   404→  return (
+   405→    <section ref={ref} className="relative py-24 sm:py-32 overflow-hidden">
+   406→      {/* Background accent */}
+   407→      <div className="absolute top-1/2 right-0 w-1/2 h-1/2 bg-amber-600/3 rounded-full blur-[100px] pointer-events-none" />
+   408→
+   409→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   410→        <div className="text-center mb-16">
+   411→          <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
+   412→            How It Works
+   413→          </p>
+   414→          <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+   415→            100% Control,{" "}
+   416→            <span className="gradient-text">Maximum Scale</span>
+   417→          </h2>
+   418→          <p className="reveal reveal-delay-2 mt-4 text-muted-foreground max-w-2xl mx-auto">
+   419→            Combining dedicated assets with a vetted partner network for
+   420→            superior service quality.
+   421→          </p>
+   422→        </div>
+   423→
+   424→        <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+   425→          {/* Core Fleet */}
+   426→          <div className="reveal reveal-delay-1 card-glow group relative p-8 sm:p-10 rounded-2xl border border-border bg-card/50">
+   427→            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+   428→            <div className="w-12 h-12 rounded-xl bg-amber-600/10 flex items-center justify-center mb-6">
+   429→              <Shield className="w-6 h-6 text-amber-500" />
+   430→            </div>
+   431→            <h3 className="text-xl sm:text-2xl font-bold mb-4">The Core Fleet</h3>
+   432→            <p className="text-muted-foreground leading-relaxed">
+   433→              For your most time-sensitive and critical movements, we deploy
+   434→              our internal team. This ensures{" "}
+   435→              <strong className="text-foreground">100% control</strong> and
+   436→              accountability over every shipment, every mile, every minute.
+   437→            </p>
+   438→            <div className="mt-6 flex flex-wrap gap-2">
+   439→              {["Direct Oversight", "SLA Guaranteed", "Priority Handling"].map(
+   440→                (tag) => (
+   441→                  <span
+   442→                    key={tag}
+   443→                    className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-amber-400 bg-amber-600/10 rounded-full"
+   444→                  >
+   445→                    <CheckCircle2 className="w-3 h-3" />
+   446→                    {tag}
+   447→                  </span>
+   448→                )
+   449→              )}
+   450→            </div>
+   451→          </div>
+   452→
+   453→          {/* Vetted Network */}
+   454→          <div className="reveal reveal-delay-2 card-glow group relative p-8 sm:p-10 rounded-2xl border border-border bg-card/50">
+   455→            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+   456→            <div className="w-12 h-12 rounded-xl bg-amber-600/10 flex items-center justify-center mb-6">
+   457→              <Globe className="w-6 h-6 text-amber-500" />
+   458→            </div>
+   459→            <h3 className="text-xl sm:text-2xl font-bold mb-4">
+   460→              The Vetted Network
+   461→            </h3>
+   462→            <p className="text-muted-foreground leading-relaxed">
+   463→              For scale and reach, we orchestrate Singapore&apos;s best freight
+   464→              forwarders,{" "}
+   465→              <strong className="text-foreground">managed entirely by us</strong>.
+   466→              You get one invoice, one point of contact, and guaranteed service
+   467→              quality.
+   468→            </p>
+   469→            <div className="mt-6 flex flex-wrap gap-2">
+   470→              {[
+   471→                "Vetted Partners",
+   472→                "Unified Invoice",
+   473→                "Scale on Demand",
+   474→              ].map((tag) => (
+   475→                <span
+   476→                  key={tag}
+   477→                  className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-amber-400 bg-amber-600/10 rounded-full"
+   478→                >
+   479→                  <CheckCircle2 className="w-3 h-3" />
+   480→                  {tag}
+   481→                </span>
+   482→              ))}
+   483→            </div>
+   484→          </div>
+   485→        </div>
+   486→
+   487→        {/* Concierge service highlight */}
+   488→        <div className="reveal reveal-delay-3 mt-8 p-6 sm:p-8 rounded-2xl border border-amber-600/20 bg-amber-600/5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+   489→          <div className="w-10 h-10 rounded-full bg-amber-600/20 flex items-center justify-center shrink-0">
+   490→            <Eye className="w-5 h-5 text-amber-500" />
+   491→          </div>
+   492→          <div>
+   493→            <h4 className="font-semibold text-lg">
+   494→              The Concierge Service: Radical Visibility
+   495→            </h4>
+   496→            <p className="text-sm text-muted-foreground mt-1">
+   497→              Human-verified updates at every step. We spot and solve problems
+   498→              before you even know they exist.
+   499→            </p>
+   500→          </div>
+   501→        </div>
+   502→      </div>
+   503→    </section>
+   504→  );
+   505→}
+   506→
+   507→/* ------------------------------------------------------------------ */
+   508→/*  Services Section                                                  */
+   509→/* ------------------------------------------------------------------ */
+   510→const services = [
+   511→  {
+   512→    icon: Truck,
+   513→    title: "Local Distribution",
+   514→    description:
+   515→      "Reliable and secure last-mile delivery across Singapore, ensuring your products reach customers safely and on time.",
+   516→    features: ["Same-day options", "Real-time tracking", "Proof of delivery"],
+   517→  },
+   518→  {
+   519→    icon: Route,
+   520→    title: "Cross-Border Trucking",
+   521→    description:
+   522→      "Seamless and compliant transport between Singapore and Malaysia, with full regulatory compliance and professional handling.",
+   523→    features: ["Customs clearance", "Regulatory compliant", "Scheduled departures"],
+   524→  },
+   525→  {
+   526→    icon: Globe,
+   527→    title: "Global Freight",
+   528→    description:
+   529→      "Managing your freight from origin to destination, regardless of size or complexity. Air, sea, and multimodal solutions.",
+   530→    features: ["Air & Ocean freight", "Door-to-door", "Multimodal routing"],
+   531→  },
+   532→  {
+   533→    icon: Warehouse,
+   534→    title: "Warehousing & Handling",
+   535→    description:
+   536→      "Secure storage facilities with professional inventory management, handling high-value and time-sensitive goods.",
+   537→    features: ["Climate controlled", "Inventory system", "Quality checks"],
+   538→  },
+   539→  {
+   540→    icon: Clock,
+   541→    title: "Concierge Visibility",
+   542→    description:
+   543→      "Human-verified updates at every checkpoint. Your dedicated logistics desk filters the noise and delivers actionable intelligence.",
+   544→    features: ["24/7 monitoring", "Proactive alerts", "Dedicated desk"],
+   545→  },
+   546→  {
+   547→    icon: Package,
+   548→    title: "Project & Event Logistics",
+   549→    description:
+   550→      "Precision coordination for events, exhibitions, and projects where timing is critical and failure is not an option.",
+   551→    features: ["Rigging & setup", "Time-critical", "On-site support"],
+   552→  },
+   553→];
+   554→
+   555→function Services() {
+   556→  const ref = useReveal();
+   557→
+   558→  return (
+   559→    <section id="services" ref={ref} className="relative py-24 sm:py-32">
+   560→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   561→        <div className="text-center mb-16">
+   562→          <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
+   563→            What We Do
+   564→          </p>
+   565→          <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+   566→            Land Transport &{" "}
+   567→            <span className="gradient-text">Last-Mile Excellence</span>
+   568→          </h2>
+   569→          <p className="reveal reveal-delay-2 mt-4 text-muted-foreground max-w-2xl mx-auto">
+   570→            Our drivers represent your brand at the delivery point. Every touch
+   571→            point is an extension of your reputation.
+   572→          </p>
+   573→        </div>
+   574→
+   575→        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+   576→          {services.map((s, i) => (
+   577→            <div
+   578→              key={s.title}
+   579→              className={`reveal reveal-delay-${Math.min(i + 1, 4)} card-glow group p-6 sm:p-7 rounded-2xl border border-border bg-card/50 cursor-default`}
+   580→            >
+   581→              <div className="w-11 h-11 rounded-xl bg-amber-600/10 group-hover:bg-amber-600/20 flex items-center justify-center mb-5 transition-colors duration-300">
+   582→                <s.icon className="w-5 h-5 text-amber-500" />
+   583→              </div>
+   584→              <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+   585→              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+   586→                {s.description}
+   587→              </p>
+   588→              <div className="flex flex-wrap gap-1.5">
+   589→                {s.features.map((f) => (
+   590→                  <span
+   591→                    key={f}
+   592→                    className="text-[11px] font-medium text-muted-foreground bg-white/5 px-2.5 py-1 rounded-md"
+   593→                  >
+   594→                    {f}
+   595→                  </span>
+   596→                ))}
+   597→              </div>
+   598→            </div>
+   599→          ))}
+   600→        </div>
+   601→      </div>
+   602→    </section>
+   603→  );
+   604→}
+   605→
+   606→/* ------------------------------------------------------------------ */
+   607→/*  Industries Section                                                */
+   608→/* ------------------------------------------------------------------ */
+   609→const industries = [
+   610→  {
+   611→    icon: Shield,
+   612→    title: "High-Value Retail",
+   613→    description:
+   614→      "Where security, careful handling, and brand reputation are paramount. Every shipment is treated with the precision it deserves.",
+   615→    highlight: "Security-first handling",
+   616→  },
+   617→  {
+   618→    icon: Clock,
+   619→    title: "Events & Exhibitions",
+   620→    description:
+   621→      'Where "late" means complete failure and missed opportunities. We deliver on time, every time — because the show must go on.',
+   622→    highlight: "Zero-tolerance for delays",
+   623→  },
+   624→  {
+   625→    icon: Package,
+   626→    title: "Marine & Urgent Spares",
+   627→    description:
+   628→      "Where every minute of delay costs significant money. Rapid response logistics that keep operations running and vessels moving.",
+   629→    highlight: "Minutes matter, we deliver",
+   630→  },
+   631→];
+   632→
+   633→function Industries() {
+   634→  const ref = useReveal();
+   635→
+   636→  return (
+   637→    <section id="industries" ref={ref} className="relative py-24 sm:py-32">
+   638→      {/* Background accent */}
+   639→      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-amber-600/3 rounded-full blur-[100px] pointer-events-none" />
+   640→
+   641→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   642→        <div className="text-center mb-16">
+   643→          <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
+   644→            Industries We Serve
+   645→          </p>
+   646→          <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+   647→            Where Failure is{" "}
+   648→            <span className="gradient-text">Not an Option</span>
+   649→          </h2>
+   650→          <p className="reveal reveal-delay-2 mt-4 text-muted-foreground max-w-2xl mx-auto">
+   651→            Your dedicated logistics desk, filtering the noise and delivering
+   652→            solutions for mission-critical operations.
+   653→          </p>
+   654→        </div>
+   655→
+   656→        <div className="grid md:grid-cols-3 gap-6">
+   657→          {industries.map((ind, i) => (
+   658→            <div
+   659→              key={ind.title}
+   660→              className={`reveal reveal-delay-${i + 1} card-glow group relative p-8 rounded-2xl border border-border bg-card/50 overflow-hidden`}
+   661→            >
+   662→              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+   663→              <div className="w-12 h-12 rounded-xl bg-amber-600/10 flex items-center justify-center mb-5">
+   664→                <ind.icon className="w-6 h-6 text-amber-500" />
+   665→              </div>
+   666→              <h3 className="text-xl font-bold mb-3">{ind.title}</h3>
+   667→              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+   668→                {ind.description}
+   669→              </p>
+   670→              <div className="flex items-center gap-2 text-amber-500">
+   671→                <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-subtle-pulse" />
+   672→                <span className="text-xs font-semibold tracking-wide uppercase">
+   673→                  {ind.highlight}
+   674→                </span>
+   675→              </div>
+   676→            </div>
+   677→          ))}
+   678→        </div>
+   679→
+   680→        {/* ROI banner */}
+   681→        <div className="reveal reveal-delay-4 mt-12 p-6 sm:p-8 rounded-2xl border border-border bg-card/30">
+   682→          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+   683→            <div className="shrink-0">
+   684→              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-600/20 to-amber-600/5 flex items-center justify-center">
+   685→                <Users className="w-7 h-7 text-amber-500" />
+   686→              </div>
+   687→            </div>
+   688→            <div>
+   689→              <h4 className="text-lg font-bold mb-1">The ROI</h4>
+   690→              <p className="text-sm text-muted-foreground leading-relaxed">
+   691→                By ensuring on-time, secure, and proactively managed logistics,
+   692→                we <strong className="text-foreground">reduce your risk</strong>,
+   693→                save you management time, and{" "}
+   694→                <strong className="text-foreground">
+   695→                  protect your brand&apos;s reputation
+   696→                </strong>
+   697→                . Our clients see measurable improvements in delivery
+   698→                reliability, cost control, and operational peace of mind.
+   699→              </p>
+   700→            </div>
+   701→          </div>
+   702→        </div>
+   703→      </div>
+   704→    </section>
+   705→  );
+   706→}
+   707→
+   708→/* ------------------------------------------------------------------ */
+   709→/*  Case Studies / Projects                                           */
+   710→/* ------------------------------------------------------------------ */
+   711→/* ------------------------------------------------------------------ */
+   712→/*  Project data                                                       */
+   713→/* ------------------------------------------------------------------ */
+   714→type Project = {
+   715→  id: string;
+   716→  title: string;
+   717→  category: string;
+   718→  image: string;
+   719→  description: string;
+   720→  overview: string;
+   721→  challenges: string[];
+   722→  approach: string[];
+   723→  results: string[];
+   724→  tags: string[];
+   725→  client: string;
+   726→  year: string;
+   727→  duration: string;
+   728→};
+   729→
+   730→const projects: Project[] = [
+   731→  {
+   732→    id: "singapore-grand-prix",
+   733→    title: "Singapore Grand Prix",
+   734→    category: "Events & Exhibitions",
+   735→    image: "/project-grandprix.png",
+   736→    description:
+   737→      "Coordinated time-sensitive delivery of specialized racing equipment for the Singapore Grand Prix, requiring precision logistics and 24/7 monitoring across multiple venues.",
+   738→    overview:
+   739→      "The Singapore Grand Prix is Asia's premier motorsport event, held on the demanding Marina Bay Street Circuit. The event requires flawless coordination of hundreds of shipments containing specialized racing equipment, team infrastructure, and hospitality assets — all within a tight, non-negotiable timeline. A single delayed shipment can compromise an entire race weekend.",
+   740→    challenges: [
+   741→      "Strict non-negotiable delivery windows aligned with track build schedule",
+   742→      "High-value, sensitive racing equipment requiring specialist handling protocols",
+   743→      "Multiple delivery points across a closed street circuit with restricted access",
+   744→      "24/7 coordination across international time zones with F1 team logistics managers",
+   745→      "Security clearance requirements for pit lane and paddock deliveries",
+   746→    ],
+   747→    approach: [
+   748→      "Dedicated project manager assigned as single point of contact for all teams",
+   749→      "Pre-event site survey and delivery route planning with circuit authorities",
+   750→      "Real-time GPS tracking with 15-minute proactive status updates",
+   751→      "Contingency vehicles pre-positioned at strategic locations around the circuit",
+   752→      "Security-vetted drivers with prior event clearance credentials",
+   753→    ],
+   754→    results: [
+   755→      "100% on-time delivery across all shipments — zero delays",
+   756→      "Coordinated 200+ individual movements over a 10-day build-up period",
+   757→      "Zero damage incidents on high-value racing equipment",
+   758→      "Recognised by event organisers for logistics excellence",
+   759→    ],
+   760→    tags: ["Precision Logistics", "24/7 Monitoring", "Time-Critical"],
+   761→    client: "F1 Teams & Event Organisers",
+   762→    year: "2024",
+   763→    duration: "10 days (build-up to race weekend)",
+   764→  },
+   765→  {
+   766→    id: "gem-concert-tour",
+   767→    title: "G.E.M. Concert Tour",
+   768→    category: "Entertainment",
+   769→    image: "/project-concert.png",
+   770→    description:
+   771→      "Managed first-mile logistics for G.E.M.'s Singapore concert tour, handling sensitive audio equipment, stage components, and time-critical setup requirements.",
+   772→    overview:
+   773→      "G.E.M.'s concert tour demands first-mile logistics of extraordinary precision. The shipment included sensitive audio equipment valued in the millions, custom stage components manufactured overseas, and time-critical rigging supplies. Every element had to arrive in sequence — sound before staging, staging before lighting — creating a dependency chain where one late truck cascades into a cancelled show.",
+   774→    challenges: [
+   775→      "Million-dollar audio equipment requiring climate-controlled transport",
+   776→      "Sequential delivery dependencies — sound, staging, lighting in strict order",
+   777→      "Venue loading dock constraints with limited time windows",
+   778→      "International freight coordination from multiple origin countries",
+   779→      "Fragile custom stage sets requiring white-glove handling",
+   780→    ],
+   781→    approach: [
+   782→      "Assigned a dedicated concierge logistics manager for the entire tour leg",
+   783→      "Created a detailed delivery Gantt chart with 30-minute precision windows",
+   784→      "Deployed climate-controlled vehicles for audio equipment transport",
+   785→      "Pre-staged equipment at a nearby holding warehouse for just-in-time delivery",
+   786→      "Provided real-time WhatsApp updates directly to the tour production manager",
+   787→    ],
+   788→    results: [
+   789→      "All shipments delivered on schedule — show went ahead without delay",
+   790→      "Zero equipment damage across all fragile and high-value items",
+   791→      "Tour production manager commended our proactive communication",
+   792→      "Reduced venue loading time by 20% through pre-staging strategy",
+   793→    ],
+   794→    tags: ["Sensitive Equipment", "First-Mile", "Stage Components"],
+   795→    client: "Tour Production Team",
+   796→    year: "2024",
+   797→    duration: "5 days (load-in to show day)",
+   798→  },
+   799→  {
+   800→    id: "sumec-container-operations",
+   801→    title: "Sumec Container Operations",
+   802→    category: "Marine & Industrial",
+   803→    image: "/project-container.png",
+   804→    description:
+   805→      "Container trucking operations for in-gauge and out-of-gauge (OOG) cargo in Singapore, covering import collection from port terminals, delivery to customer sites, and empty container returns.",
+   806→    overview:
+   807→      "Sumec required a reliable container trucking partner for both standard in-gauge and complex out-of-gauge (OOG) cargo movements across Singapore. This involved import collection from multiple port terminals (PSA, Jurong, Tuas), delivery to varied customer sites ranging from industrial parks to congested urban locations, and the often-overlooked process of empty container returns — all while maintaining full regulatory compliance.",
+   808→    challenges: [
+   809→      "Out-of-gauge cargo requiring special permits, pilot vehicles, and route surveys",
+   810→      "Multiple port terminals with different access protocols and operating hours",
+   811→      "Tight turnaround requirements to avoid demurrage and detention charges",
+   812→      "Coordinating empty container returns across depots with limited availability",
+   813→      "End-to-end compliance including weight limits, axle load regulations, and port rules",
+   814→    ],
+   815→    approach: [
+   816→      "Conducted a detailed end-to-end workflow review with safety and compliance assessment",
+   817→      "Assigned dedicated fleet for OOG movements with experienced heavy-load drivers",
+   818→      "Implemented a digital tracking dashboard for real-time container status visibility",
+   819→      "Pre-booked return slots at container depots to eliminate waiting time",
+   820→      "Weekly compliance audits and driver briefings on regulatory updates",
+   821→    ],
+   822→    results: [
+   823→      "Zero compliance incidents across all movements",
+   824→      "Reduced container turnaround time by 15% through pre-booking strategy",
+   825→      "Achieved 98% on-time delivery rate across 500+ container movements",
+   826→      "Client extended contract based on service quality and reliability",
+   827→    ],
+   828→    tags: ["OOG Cargo", "Port Operations", "Compliance Review"],
+   829→    client: "Sumec Group",
+   830→    year: "2024–2025",
+   831→    duration: "Ongoing contract",
+   832→  },
+   833→];
+   834→
+   835→const projectsData = projects; // alias for passing to components
+   836→
+   837→/* ------------------------------------------------------------------ */
+   838→/*  Infographic Dialog (G.E.M. Concert Tour)                          */
+   839→/* ------------------------------------------------------------------ */
+   840→function InfographicButton({
+   841→  label,
+   842→  imageSrc,
+   843→  altText,
+   844→}: {
+   845→  label: string;
+   846→  imageSrc: string;
+   847→  altText: string;
+   848→}) {
+   849→  const [show, setShow] = useState(false);
+   850→
+   851→  return (
+   852→    <>
+   853→      <button
+   854→        onClick={() => setShow(true)}
+   855→        className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-muted-foreground hover:text-foreground border border-border hover:border-foreground/20 rounded-xl transition-all duration-300 hover:-translate-y-0.5 bg-white/[0.03] hover:bg-white/[0.06]"
+   856→      >
+   857→        <ImageIcon className="w-4 h-4" />
+   858→        {label}
+   859→      </button>
+   860→
+   861→      <Dialog open={show} onOpenChange={setShow}>
+   862→        <DialogContent className="!max-w-[95vw] max-h-[95vh] p-0 overflow-hidden bg-zinc-950 border-border flex items-center justify-center [&>span]:hidden">
+   863→          <DialogTitle className="sr-only">{label}</DialogTitle>
+   864→          <div className="relative">
+   865→            <button
+   866→              onClick={() => setShow(false)}
+   867→              className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 hover:bg-black/80 text-white/70 hover:text-white transition-colors"
+   868→              aria-label="Close"
+   869→            >
+   870→              <X className="w-4 h-4" />
+   871→            </button>
+   872→            {/* eslint-disable-next-line @next/next/no-img-element */}
+   873→            <img
+   874→              src={imageSrc}
+   875→              alt={altText}
+   876→              className="w-full h-auto"
+   877→            />
+   878→          </div>
+   879→        </DialogContent>
+   880→      </Dialog>
+   881→    </>
+   882→  );
+   883→}
+   884→
+   885→/* ------------------------------------------------------------------ */
+   886→/*  Project Detail Sheet                                               */
+   887→/* ------------------------------------------------------------------ */
+   888→function ProjectDetail({
+   889→  project,
+   890→  open,
+   891→  onOpenChange,
+   892→}: {
+   893→  project: Project | null;
+   894→  open: boolean;
+   895→  onOpenChange: (open: boolean) => void;
+   896→}) {
+   897→  if (!project) return null;
+   898→
+   899→  return (
+   900→    <Sheet open={open} onOpenChange={onOpenChange}>
+   901→      <SheetContent
+   902→        side="right"
+   903→        className="w-full sm:max-w-2xl bg-background border-border p-0 overflow-y-auto"
+   904→      >
+   905→        {/* Hero image */}
+   906→        <div className="relative h-56 sm:h-64 overflow-hidden">
+   907→          <img
+   908→            src={project.image}
+   909→            alt={project.title}
+   910→            className="w-full h-full object-cover"
+   911→          />
+   912→          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+   913→          <div className="absolute bottom-0 left-0 right-0 p-6">
+   914→            <span className="text-[11px] font-semibold tracking-wider uppercase text-amber-400 mb-2 block">
+   915→              {project.category}
+   916→            </span>
+   917→            <SheetTitle className="text-2xl sm:text-3xl font-bold tracking-tight">
+   918→              {project.title}
+   919→            </SheetTitle>
+   920→          </div>
+   921→        </div>
+   922→
+   923→        {/* Meta bar */}
+   924→        <div className="border-b border-border px-6 py-4 flex flex-wrap gap-x-6 gap-y-2">
+   925→          <div className="flex items-center gap-2 text-sm">
+   926→            <Users className="w-4 h-4 text-amber-500" />
+   927→            <span className="text-muted-foreground">Client:</span>
+   928→            <span className="font-medium">{project.client}</span>
+   929→          </div>
+   930→          <div className="flex items-center gap-2 text-sm">
+   931→            <Calendar className="w-4 h-4 text-amber-500" />
+   932→            <span className="text-muted-foreground">Year:</span>
+   933→            <span className="font-medium">{project.year}</span>
+   934→          </div>
+   935→          <div className="flex items-center gap-2 text-sm">
+   936→            <Clock className="w-4 h-4 text-amber-500" />
+   937→            <span className="text-muted-foreground">Duration:</span>
+   938→            <span className="font-medium">{project.duration}</span>
+   939→          </div>
+   940→        </div>
+   941→
+   942→        <SheetDescription className="sr-only">
+   943→          Project details for {project.title}
+   944→        </SheetDescription>
+   945→
+   946→        {/* Content */}
+   947→        <div className="px-6 py-6 space-y-8">
+   948→          {/* Overview */}
+   949→          <div>
+   950→            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+   951→              <MapPinned className="w-4 h-4" />
+   952→              Overview
+   953→            </h4>
+   954→            <p className="text-sm text-muted-foreground leading-relaxed">
+   955→              {project.overview}
+   956→            </p>
+   957→          </div>
+   958→
+   959→          {/* Challenges */}
+   960→          <div>
+   961→            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+   962→              <Target className="w-4 h-4" />
+   963→              Challenges
+   964→            </h4>
+   965→            <ul className="space-y-2.5">
+   966→              {project.challenges.map((c) => (
+   967→                <li
+   968→                  key={c}
+   969→                  className="flex items-start gap-3 text-sm text-muted-foreground"
+   970→                >
+   971→                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500/60 shrink-0 mt-1.5" />
+   972→                  {c}
+   973→                </li>
+   974→              ))}
+   975→            </ul>
+   976→          </div>
+   977→
+   978→          {/* Our Approach */}
+   979→          <div>
+   980→            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+   981→              <Route className="w-4 h-4" />
+   982→              Our Approach
+   983→            </h4>
+   984→            <ul className="space-y-2.5">
+   985→              {project.approach.map((a) => (
+   986→                <li
+   987→                  key={a}
+   988→                  className="flex items-start gap-3 text-sm text-muted-foreground"
+   989→                >
+   990→                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+   991→                  {a}
+   992→                </li>
+   993→              ))}
+   994→            </ul>
+   995→          </div>
+   996→
+   997→          {/* Results */}
+   998→          <div>
+   999→            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+  1000→              <TrendingUp className="w-4 h-4" />
+  1001→              Results
+  1002→            </h4>
+  1003→            <ul className="space-y-2.5">
+  1004→              {project.results.map((r) => (
+  1005→                <li
+  1006→                  key={r}
+  1007→                  className="flex items-start gap-3 text-sm text-foreground font-medium"
+  1008→                >
+  1009→                  <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+  1010→                  {r}
+  1011→                </li>
+  1012→              ))}
+  1013→            </ul>
+  1014→          </div>
+  1015→
+  1016→          {/* Tags */}
+  1017→          <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
+  1018→            {project.tags.map((t) => (
+  1019→              <span
+  1020→                key={t}
+  1021→                className="text-[11px] font-medium text-muted-foreground bg-white/5 px-3 py-1.5 rounded-lg border border-border"
+  1022→              >
+  1023→                {t}
+  1024→              </span>
+  1025→            ))}
+  1026→          </div>
+  1027→
+  1028→          {/* CTA */}
+  1029→          <div className="pt-2 flex flex-wrap items-center gap-3">
+  1030→            <a
+  1031→              href="#contact"
+  1032→              onClick={() => onOpenChange(false)}
+  1033→              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/20"
+  1034→            >
+  1035→              Discuss a Similar Project
+  1036→              <ArrowRight className="w-4 h-4" />
+  1037→            </a>
+  1038→            {project.id === "gem-concert-tour" && (
+  1039→              <InfographicButton
+  1040→                label="Orchestrating the Stage"
+  1041→                imageSrc="/infographic-gem-concert.jpg"
+  1042→                altText="Orchestrating the Stage: G.E.M. Concert Tour logistics infographic"
+  1043→              />
+  1044→            )}
+  1045→            {project.id === "singapore-grand-prix" && (
+  1046→              <InfographicButton
+  1047→                label="Precision Under Pressure"
+  1048→                imageSrc="/infographic-grandprix.jpg"
+  1049→                altText="Precision Under Pressure: Singapore Grand Prix logistics infographic"
+  1050→              />
+  1051→            )}
+  1052→            {project.id === "sumec-container-operations" && (
+  1053→              <InfographicButton
+  1054→                label="Prudence for Advancement"
+  1055→                imageSrc="/infographic-container.jpg"
+  1056→                altText="Prudence for Advancement: SUMEC Container Operations logistics infographic"
+  1057→              />
+  1058→            )}
+  1059→          </div>
+  1060→        </div>
+  1061→      </SheetContent>
+  1062→    </Sheet>
+  1063→  );
+  1064→}
+  1065→
+  1066→/* ------------------------------------------------------------------ */
+  1067→/*  Case Studies / Projects                                           */
+  1068→/* ------------------------------------------------------------------ */
+  1069→function Projects({
+  1070→  onSelectProject,
+  1071→}: {
+  1072→  onSelectProject?: (id: string) => void;
+  1073→}) {
+  1074→  const ref = useReveal();
+  1075→
+  1076→  return (
+  1077→    <section id="projects" ref={ref} className="relative py-24 sm:py-32 bg-projects-warm">
+  1078→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  1079→        <div className="text-center mb-16">
+  1080→          <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
+  1081→            Proven Performance
+  1082→          </p>
+  1083→          <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+  1084→            Real-World{" "}
+  1085→            <span className="gradient-text">Solutions</span>
+  1086→          </h2>
+  1087→          <p className="reveal reveal-delay-2 mt-4 text-muted-foreground max-w-2xl mx-auto">
+  1088→            Moving beyond theory to deliver precision in high-stakes
+  1089→            environments.
+  1090→          </p>
+  1091→        </div>
+  1092→
+  1093→        <div className="grid md:grid-cols-3 gap-6">
+  1094→          {projectsData.map((p, i) => (
+  1095→            <button
+  1096→              key={p.id}
+  1097→              onClick={() => onSelectProject?.(p.id)}
+  1098→              className={`reveal reveal-delay-${i + 1} card-glow group relative p-7 rounded-2xl border border-border bg-card/50 overflow-hidden flex flex-col text-left cursor-pointer w-full`}
+  1099→            >
+  1100→              {/* Top accent line */}
+  1101→              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+  1102→
+  1103→              <span className="text-[11px] font-semibold tracking-wider uppercase text-amber-500 mb-3">
+  1104→                {p.category}
+  1105→              </span>
+  1106→              <h3 className="text-lg font-bold mb-3">{p.title}</h3>
+  1107→              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+  1108→                {p.description}
+  1109→              </p>
+  1110→              <div className="mt-5 pt-5 border-t border-border flex items-center justify-between">
+  1111→                <div className="flex flex-wrap gap-1.5">
+  1112→                  {p.tags.slice(0, 2).map((t) => (
+  1113→                    <span
+  1114→                      key={t}
+  1115→                      className="text-[11px] font-medium text-muted-foreground bg-white/5 px-2.5 py-1 rounded-md"
+  1116→                    >
+  1117→                      {t}
+  1118→                    </span>
+  1119→                  ))}
+  1120→                </div>
+  1121→                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-amber-500 group-hover:translate-x-1 transition-all duration-300" />
+  1122→              </div>
+  1123→            </button>
+  1124→          ))}
+  1125→        </div>
+  1126→      </div>
+  1127→    </section>
+  1128→  );
+  1129→}
+  1130→
+  1131→/* ------------------------------------------------------------------ */
+  1132→/*  Contact Section                                                   */
+  1133→/* ------------------------------------------------------------------ */
+  1134→function Contact() {
+  1135→  const ref = useReveal();
+  1136→  const [formState, setFormState] = useState({
+  1137→    name: "",
+  1138→    email: "",
+  1139→    company: "",
+  1140→    phone: "",
+  1141→    message: "",
+  1142→  });
+  1143→  const [submitting, setSubmitting] = useState(false);
+  1144→  const [submitted, setSubmitted] = useState(false);
+  1145→
+  1146→  const handleChange = useCallback(
+  1147→    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  1148→      setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  1149→    },
+  1150→    []
+  1151→  );
+  1152→
+  1153→  const handleSubmit = useCallback(
+  1154→    async (e: React.FormEvent) => {
+  1155→      e.preventDefault();
+  1156→      setSubmitting(true);
+  1157→      try {
+  1158→        const res = await fetch("/api/contact", {
+  1159→          method: "POST",
+  1160→          headers: { "Content-Type": "application/json" },
+  1161→          body: JSON.stringify(formState),
+  1162→        });
+  1163→        if (res.ok) {
+  1164→          setSubmitted(true);
+  1165→          setFormState({ name: "", email: "", company: "", phone: "", message: "" });
+  1166→        }
+  1167→      } catch {
+  1168→        // Silently handle
+  1169→      } finally {
+  1170→        setSubmitting(false);
+  1171→      }
+  1172→    },
+  1173→    [formState]
+  1174→  );
+  1175→
+  1176→  return (
+  1177→    <section id="contact" ref={ref} className="relative py-16 sm:py-32">
+  1178→      {/* Background glow */}
+  1179→      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[120px] pointer-events-none" />
+  1180→
+  1181→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  1182→        <div className="text-center mb-10 sm:mb-16">
+  1183→          <p className="reveal text-xs font-semibold tracking-[0.25em] uppercase text-amber-500 mb-4">
+  1184→            Next Step
+  1185→          </p>
+  1186→          <h2 className="reveal reveal-delay-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+  1187→            Switch to the{" "}
+  1188→            <span className="gradient-text">Concierge Standard</span>
+  1189→          </h2>
+  1190→          <p className="reveal reveal-delay-2 mt-4 text-muted-foreground max-w-2xl mx-auto">
+  1191→            Tired of chasing updates? Let&apos;s discuss your critical logistics
+  1192→            needs and discover how YeHeng Logistics can transform your supply
+  1193→            chain.
+  1194→          </p>
+  1195→        </div>
+  1196→
+  1197→        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12">
+  1198→          {/* Form */}
+  1199→          <div className="reveal reveal-delay-1 lg:col-span-3">
+  1200→            {submitted ? (
+  1201→              <div className="flex flex-col items-center justify-center py-16 text-center">
+  1202→                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-5">
+  1203→                  <CheckCircle2 className="w-8 h-8 text-green-500" />
+  1204→                </div>
+  1205→                <h3 className="text-xl font-bold mb-2">Message Sent</h3>
+  1206→                <p className="text-muted-foreground text-sm max-w-sm">
+  1207→                  Thank you for reaching out. Our team will get back to you
+  1208→                  within 24 hours.
+  1209→                </p>
+  1210→                <button
+  1211→                  onClick={() => setSubmitted(false)}
+  1212→                  className="mt-6 text-sm text-amber-500 hover:text-amber-400 font-medium transition-colors"
+  1213→                >
+  1214→                  Send another message
+  1215→                </button>
+  1216→              </div>
+  1217→            ) : (
+  1218→              <form
+  1219→                onSubmit={handleSubmit}
+  1220→                className="space-y-5 p-6 sm:p-8 rounded-2xl border border-border bg-card/50"
+  1221→              >
+  1222→                <div className="grid sm:grid-cols-2 gap-5">
+  1223→                  <div className="space-y-2">
+  1224→                    <label
+  1225→                      htmlFor="name"
+  1226→                      className="text-sm font-medium text-muted-foreground"
+  1227→                    >
+  1228→                      Full Name
+  1229→                    </label>
+  1230→                    <Input
+  1231→                      id="name"
+  1232→                      name="name"
+  1233→                      value={formState.name}
+  1234→                      onChange={handleChange}
+  1235→                      required
+  1236→                      placeholder="John Tan"
+  1237→                      className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
+  1238→                    />
+  1239→                  </div>
+  1240→                  <div className="space-y-2">
+  1241→                    <label
+  1242→                      htmlFor="email"
+  1243→                      className="text-sm font-medium text-muted-foreground"
+  1244→                    >
+  1245→                      Email
+  1246→                    </label>
+  1247→                    <Input
+  1248→                      id="email"
+  1249→                      name="email"
+  1250→                      type="email"
+  1251→                      value={formState.email}
+  1252→                      onChange={handleChange}
+  1253→                      required
+  1254→                      placeholder="john@company.com"
+  1255→                      className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
+  1256→                    />
+  1257→                  </div>
+  1258→                </div>
+  1259→                <div className="grid sm:grid-cols-2 gap-5">
+  1260→                  <div className="space-y-2">
+  1261→                    <label
+  1262→                      htmlFor="company"
+  1263→                      className="text-sm font-medium text-muted-foreground"
+  1264→                    >
+  1265→                      Company
+  1266→                    </label>
+  1267→                    <Input
+  1268→                      id="company"
+  1269→                      name="company"
+  1270→                      value={formState.company}
+  1271→                      onChange={handleChange}
+  1272→                      placeholder="Your company name"
+  1273→                      className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
+  1274→                    />
+  1275→                  </div>
+  1276→                  <div className="space-y-2">
+  1277→                    <label
+  1278→                      htmlFor="phone"
+  1279→                      className="text-sm font-medium text-muted-foreground"
+  1280→                    >
+  1281→                      Phone
+  1282→                    </label>
+  1283→                    <Input
+  1284→                      id="phone"
+  1285→                      name="phone"
+  1286→                      type="tel"
+  1287→                      value={formState.phone}
+  1288→                      onChange={handleChange}
+  1289→                      placeholder="+65 XXXX XXXX"
+  1290→                      className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 h-11"
+  1291→                    />
+  1292→                  </div>
+  1293→                </div>
+  1294→                <div className="space-y-2">
+  1295→                  <label
+  1296→                    htmlFor="message"
+  1297→                    className="text-sm font-medium text-muted-foreground"
+  1298→                  >
+  1299→                    How can we help?
+  1300→                  </label>
+  1301→                  <Textarea
+  1302→                    id="message"
+  1303→                    name="message"
+  1304→                    value={formState.message}
+  1305→                    onChange={handleChange}
+  1306→                    required
+  1307→                    placeholder="Tell us about your logistics needs..."
+  1308→                    rows={5}
+  1309→                    className="bg-white/5 border-border focus:border-amber-600/50 focus:ring-amber-600/20 resize-none"
+  1310→                  />
+  1311→                </div>
+  1312→                <Button
+  1313→                  type="submit"
+  1314→                  disabled={submitting}
+  1315→                  className="w-full h-12 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/20 disabled:opacity-60"
+  1316→                >
+  1317→                  {submitting ? (
+  1318→                    <span className="flex items-center gap-2">
+  1319→                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+  1320→                      Sending...
+  1321→                    </span>
+  1322→                  ) : (
+  1323→                    <span className="flex items-center justify-center gap-2">
+  1324→                      Request a Consultation
+  1325→                      <ArrowRight className="w-4 h-4" />
+  1326→                    </span>
+  1327→                  )}
+  1328→                </Button>
+  1329→              </form>
+  1330→            )}
+  1331→          </div>
+  1332→
+  1333→          {/* Contact info */}
+  1334→          <div className="reveal reveal-delay-2 lg:col-span-2 space-y-4 sm:space-y-6">
+  1335→            <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card/50">
+  1336→              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+  1337→                {/* Left column: Person & Phone */}
+  1338→                <div className="space-y-4 sm:space-y-6">
+  1339→                  <div className="flex items-start gap-4">
+  1340→                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
+  1341→                      <Users className="w-5 h-5 text-amber-500" />
+  1342→                    </div>
+  1343→                    <div>
+  1344→                      <p className="text-sm font-semibold">Yeo Hui Qi</p>
+  1345→                      <p className="text-sm text-muted-foreground">
+  1346→                        General Manager
+  1347→                      </p>
+  1348→                    </div>
+  1349→                  </div>
+  1350→                  <div className="flex items-start gap-4">
+  1351→                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
+  1352→                      <Phone className="w-5 h-5 text-amber-500" />
+  1353→                    </div>
+  1354→                    <div>
+  1355→                      <p className="text-sm font-semibold">Phone</p>
+  1356→                      <a
+  1357→                        href="tel:+6584981676"
+  1358→                        className="text-sm text-muted-foreground hover:text-amber-500 transition-colors"
+  1359→                      >
+  1360→                        +65 8498 1676
+  1361→                      </a>
+  1362→                    </div>
+  1363→                  </div>
+  1364→                </div>
+  1365→                {/* Right column: Email & Office */}
+  1366→                <div className="space-y-4 sm:space-y-6">
+  1367→                  <div className="flex items-start gap-4">
+  1368→                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
+  1369→                      <Mail className="w-5 h-5 text-amber-500" />
+  1370→                    </div>
+  1371→                    <div>
+  1372→                      <p className="text-sm font-semibold">Email</p>
+  1373→                      <a
+  1374→                        href="mailto:info@yeheng.com.sg"
+  1375→                        className="text-sm text-muted-foreground hover:text-amber-500 transition-colors"
+  1376→                      >
+  1377→                        info@yeheng.com.sg
+  1378→                      </a>
+  1379→                    </div>
+  1380→                  </div>
+  1381→                  <div className="flex items-start gap-4">
+  1382→                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
+  1383→                      <MapPin className="w-5 h-5 text-amber-500" />
+  1384→                    </div>
+  1385→                    <div>
+  1386→                      <p className="text-sm font-semibold">Office</p>
+  1387→                      <p className="text-sm text-muted-foreground leading-relaxed">
+  1388→                        21 Toh Guan Road East
+  1389→                        <br />
+  1390→                        #09-10 Toh Guan Centre
+  1391→                        <br />
+  1392→                        Singapore 608609
+  1393→                      </p>
+  1394→                    </div>
+  1395→                  </div>
+  1396→                </div>
+  1397→              </div>
+  1398→            </div>
+  1399→
+  1400→            {/* Quick value props */}
+  1401→            <div className="p-4 sm:p-6 rounded-2xl border border-amber-600/20 bg-amber-600/5">
+  1402→              <h4 className="font-semibold text-sm mb-3 sm:mb-4">Why choose YeHeng?</h4>
+  1403→              <ul className="space-y-2 sm:space-y-3">
+  1404→                {[
+  1405→                  "Human-verified, proactive updates",
+  1406→                  "One point of contact, one invoice",
+  1407→                  "Dedicated fleet for critical shipments",
+  1408→                  "24/7 monitoring & emergency support",
+  1409→                  "Singapore & cross-border expertise",
+  1410→                ].map((item) => (
+  1411→                  <li
+  1412→                    key={item}
+  1413→                    className="flex items-start gap-2.5 text-sm text-muted-foreground"
+  1414→                  >
+  1415→                    <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+  1416→                    {item}
+  1417→                  </li>
+  1418→                ))}
+  1419→              </ul>
+  1420→            </div>
+  1421→          </div>
+  1422→        </div>
+  1423→      </div>
+  1424→    </section>
+  1425→  );
+  1426→}
+  1427→
+  1428→/* ------------------------------------------------------------------ */
+  1429→/*  Footer                                                            */
+  1430→/* ------------------------------------------------------------------ */
+  1431→function Footer() {
+  1432→  return (
+  1433→    <footer className="border-t border-border py-6">
+  1434→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  1435→        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
+  1436→          <div className="flex items-center gap-3 shrink-0">
+  1437→            <img
+  1438→              src="/sla-logo.png"
+  1439→              alt="Singapore Logistics Association"
+  1440→              className="h-7 sm:h-8 object-contain brightness-0 invert opacity-60"
+  1441→            />
+  1442→            <img
+  1443→              src="/bizsafe-logo.png"
+  1444→              alt="bizSAFE STAR"
+  1445→              className="h-7 sm:h-8 object-contain brightness-0 invert opacity-60"
+  1446→            />
+  1447→          </div>
+  1448→          <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
+  1449→            Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
+  1450→            (SLA). All business transactions are done in accordance to SLA Standard
+  1451→            Trading Conditions. A Singapore Logistics Association Standard Trading
+  1452→            Conditions copy is available on request. ©2026 by YE HENG LOGISTIC PTE LTD. All rights reserved.
+  1453→          </p>
+  1454→        </div>
+  1455→      </div>
+  1456→    </footer>
+  1457→  );
+  1458→}
+  1459→
+  1460→/* ------------------------------------------------------------------ */
+  1461→/*  Page                                                              */
+  1462→/* ------------------------------------------------------------------ */
+  1463→export default function HomePage() {
+  1464→  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  1465→
+  1466→  const selectedProject = selectedProjectId
+  1467→    ? projectsData.find((p) => p.id === selectedProjectId) ?? null
+  1468→    : null;
+  1469→
+  1470→  const handleSelectProject = useCallback((id: string) => {
+  1471→    setSelectedProjectId(id);
+  1472→  }, []);
+  1473→
+  1474→  return (
+  1475→    <div className="min-h-screen flex flex-col">
+  1476→      <Navbar onSelectProject={handleSelectProject} />
+  1477→      <main className="flex-1">
+  1478→        <Hero />
+  1479→        <About />
+  1480→        <HybridModel />
+  1481→        <Services />
+  1482→        <Industries />
+  1483→        <Projects onSelectProject={handleSelectProject} />
+  1484→        <Contact />
+  1485→      </main>
+  1486→      <Footer />
+  1487→      <ProjectDetail
+  1488→        project={selectedProject}
+  1489→        open={!!selectedProjectId}
+  1490→        onOpenChange={(open) => {
+  1491→          if (!open) setSelectedProjectId(null);
+  1492→        }}
+  1493→      />
+  1494→    </div>
+  1495→  );
+  1496→}

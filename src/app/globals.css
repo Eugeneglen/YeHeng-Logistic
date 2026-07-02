@@ -292,6 +292,32 @@
   animation: glow-drift-3 25s ease-in-out infinite;
 }
 
+/* Mouse radar sweep rotation */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Mouse radar pulse rings — scale from center outward */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(0.04);
+    opacity: 0.7;
+    border-width: 2.5px;
+    border-color: oklch(0.72 0.19 55 / 0.5);
+  }
+  30% {
+    opacity: 0.35;
+    border-width: 1.5px;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+    border-width: 0.5px;
+    border-color: oklch(0.72 0.19 55 / 0);
+  }
+}
+
 /* Projects section warm background */
 .bg-projects-warm {
   background-color: #2d1a08;

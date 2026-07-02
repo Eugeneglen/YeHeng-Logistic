@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { BackgroundTexture } from "@/components/background-texture";
+import { MouseRadar } from "@/components/mouse-radar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,6 +57,7 @@ export default function RootLayout({
           {children}
         </div>
         <BackgroundTexture />
+        <MouseRadar />
         <Toaster />
       </body>
     </html>

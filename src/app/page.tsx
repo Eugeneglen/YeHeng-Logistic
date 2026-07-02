@@ -859,7 +859,7 @@ function InfographicButton({
       </button>
 
       <Dialog open={show} onOpenChange={setShow}>
-        <DialogContent className="max-w-[1200px] w-[96vw] p-0 overflow-hidden bg-zinc-950 border-border">
+        <DialogContent className="!max-w-[95vw] max-h-[95vh] p-0 overflow-hidden bg-zinc-950 border-border flex items-center justify-center [&>span]:hidden">
           <DialogTitle className="sr-only">{label}</DialogTitle>
           <div className="relative">
             <button
@@ -1038,21 +1038,21 @@ function ProjectDetail({
             {project.id === "gem-concert-tour" && (
               <InfographicButton
                 label="Orchestrating the Stage"
-                imageSrc="/infographic-gem-concert.png"
+                imageSrc="/infographic-gem-concert.jpg"
                 altText="Orchestrating the Stage: G.E.M. Concert Tour logistics infographic"
               />
             )}
             {project.id === "singapore-grand-prix" && (
               <InfographicButton
                 label="Precision Under Pressure"
-                imageSrc="/infographic-grandprix.png"
+                imageSrc="/infographic-grandprix.jpg"
                 altText="Precision Under Pressure: Singapore Grand Prix logistics infographic"
               />
             )}
             {project.id === "sumec-container-operations" && (
               <InfographicButton
                 label="Prudence for Advancement"
-                imageSrc="/infographic-container.png"
+                imageSrc="/infographic-container.jpg"
                 altText="Prudence for Advancement: SUMEC Container Operations logistics infographic"
               />
             )}
