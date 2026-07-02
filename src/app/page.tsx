@@ -1345,61 +1345,26 @@ function Contact() {
 /* ------------------------------------------------------------------ */
 function Footer() {
   return (
-    <footer className="border-t border-border">
-      {/* SLA Membership */}
-      <div className="border-b border-border py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-6 sm:gap-10 mb-5">
-            <img
-              src="/sla-logo-1.jpg"
-              alt="SLA Member Logo"
-              className="h-12 sm:h-14 object-contain brightness-0 invert opacity-70"
-            />
-            <img
-              src="/sla-logo-2.jpg"
-              alt="SLA Standard Trading Conditions"
-              className="h-12 sm:h-14 object-contain brightness-0 invert opacity-70"
-            />
-          </div>
-          <p className="text-xs text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
-            (SLA). All business transactions are done in accordance to SLA Standard
-            Trading Conditions. A Singapore Logistics Association Standard Trading
-            Conditions copy is available on request.
-          </p>
+    <footer className="border-t border-border py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="flex items-center justify-center gap-5 sm:gap-8 mb-3">
+          <img
+            src="/sla-logo-1.jpg"
+            alt="Singapore Logistics Association"
+            className="h-8 sm:h-9 object-contain brightness-0 invert opacity-50"
+          />
+          <img
+            src="/sla-logo-2.jpg"
+            alt="bizSAFE STAR"
+            className="h-8 sm:h-9 object-contain brightness-0 invert opacity-50"
+          />
         </div>
-      </div>
-
-      {/* Main footer */}
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <img
-                src="/logo.png"
-                alt="YeHeng Logistics"
-                className="w-8 h-8 object-contain brightness-0 invert"
-              />
-              <div>
-                <span className="text-sm font-semibold">YeHeng Logistics Pte Ltd</span>
-              </div>
-            </div>
-            <p className="text-xs text-muted-foreground text-center">
-              Precision. Control. Personal. &mdash; Singapore 2026
-            </p>
-            <div className="flex items-center gap-4 text-muted-foreground">
-              <a href="#about" className="text-xs hover:text-foreground transition-colors">
-                About
-              </a>
-              <a href="#services" className="text-xs hover:text-foreground transition-colors">
-                Services
-              </a>
-              <a href="#contact" className="text-xs hover:text-foreground transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
+        <p className="text-[11px] text-muted-foreground/70 max-w-2xl mx-auto leading-relaxed">
+          Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
+          (SLA). All business transactions are done in accordance to SLA Standard
+          Trading Conditions. A Singapore Logistics Association Standard Trading
+          Conditions copy is available on request.
+        </p>
       </div>
     </footer>
   );
