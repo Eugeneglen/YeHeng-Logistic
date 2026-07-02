@@ -5,6 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Phone,
   Mail,
   MapPin,
@@ -17,9 +30,15 @@ import {
   Users,
   CheckCircle2,
   ChevronDown,
+  ChevronUp,
   Package,
   Route,
   Warehouse,
+  X,
+  Calendar,
+  MapPinned,
+  Target,
+  TrendingUp,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -94,7 +113,11 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
 /* ------------------------------------------------------------------ */
 /*  Navigation                                                        */
 /* ------------------------------------------------------------------ */
-function Navbar() {
+function Navbar({
+  onSelectProject,
+}: {
+  onSelectProject?: (id: string) => void;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -108,9 +131,13 @@ function Navbar() {
     { label: "About", href: "#about" },
     { label: "Services", href: "#services" },
     { label: "Industries", href: "#industries" },
-    { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
   ];
+
+  const handleProjectSelect = (id: string) => {
+    onSelectProject?.(id);
+    setMobileOpen(false);
+  };
 
   return (
     <header
@@ -147,6 +174,34 @@ function Navbar() {
               {l.label}
             </a>
           ))}
+          {/* Projects dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 inline-flex items-center gap-1">
+                Projects
+                <ChevronDown className="w-3.5 h-3.5 opacity-50" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="center"
+              className="bg-card border-border w-64"
+            >
+              {projectsData.map((p) => (
+                <DropdownMenuItem
+                  key={p.id}
+                  onClick={() => handleProjectSelect(p.id)}
+                  className="cursor-pointer py-3 focus:bg-amber-600/10 focus:text-amber-400"
+                >
+                  <div>
+                    <div className="text-sm font-medium">{p.title}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">
+                      {p.category}
+                    </div>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         {/* CTA + Mobile */}
@@ -187,7 +242,7 @@ function Navbar() {
       {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ${
-          mobileOpen ? "max-h-80" : "max-h-0"
+          mobileOpen ? "max-h-96" : "max-h-0"
         }`}
       >
         <nav className="px-4 pb-4 pt-2 space-y-1 bg-background/95 backdrop-blur-xl border-t border-border">
@@ -201,6 +256,21 @@ function Navbar() {
               {l.label}
             </a>
           ))}
+          {/* Mobile project sub-links */}
+          <div className="pl-3 border-l-2 border-border ml-3 space-y-0.5 mt-2">
+            <p className="px-3 py-1 text-[10px] font-semibold tracking-wider uppercase text-amber-500">
+              Projects
+            </p>
+            {projectsData.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => handleProjectSelect(p.id)}
+                className="block w-full text-left px-3 py-2 text-sm text-muted-foreground hover:text-amber-400 hover:bg-white/5 rounded-lg transition-colors"
+              >
+                {p.title}
+              </button>
+            ))}
+          </div>
           <a
             href="#contact"
             onClick={() => setMobileOpen(false)}
@@ -653,31 +723,300 @@ function Industries() {
 /* ------------------------------------------------------------------ */
 /*  Case Studies / Projects                                           */
 /* ------------------------------------------------------------------ */
-const projects = [
+/* ------------------------------------------------------------------ */
+/*  Project data                                                       */
+/* ------------------------------------------------------------------ */
+type Project = {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  description: string;
+  overview: string;
+  challenges: string[];
+  approach: string[];
+  results: string[];
+  tags: string[];
+  client: string;
+  year: string;
+  duration: string;
+};
+
+const projects: Project[] = [
   {
+    id: "singapore-grand-prix",
     title: "Singapore Grand Prix",
     category: "Events & Exhibitions",
+    image: "/project-grandprix.png",
     description:
       "Coordinated time-sensitive delivery of specialized racing equipment for the Singapore Grand Prix, requiring precision logistics and 24/7 monitoring across multiple venues.",
+    overview:
+      "The Singapore Grand Prix is Asia's premier motorsport event, held on the demanding Marina Bay Street Circuit. The event requires flawless coordination of hundreds of shipments containing specialized racing equipment, team infrastructure, and hospitality assets — all within a tight, non-negotiable timeline. A single delayed shipment can compromise an entire race weekend.",
+    challenges: [
+      "Strict non-negotiable delivery windows aligned with track build schedule",
+      "High-value, sensitive racing equipment requiring specialist handling protocols",
+      "Multiple delivery points across a closed street circuit with restricted access",
+      "24/7 coordination across international time zones with F1 team logistics managers",
+      "Security clearance requirements for pit lane and paddock deliveries",
+    ],
+    approach: [
+      "Dedicated project manager assigned as single point of contact for all teams",
+      "Pre-event site survey and delivery route planning with circuit authorities",
+      "Real-time GPS tracking with 15-minute proactive status updates",
+      "Contingency vehicles pre-positioned at strategic locations around the circuit",
+      "Security-vetted drivers with prior event clearance credentials",
+    ],
+    results: [
+      "100% on-time delivery across all shipments — zero delays",
+      "Coordinated 200+ individual movements over a 10-day build-up period",
+      "Zero damage incidents on high-value racing equipment",
+      "Recognised by event organisers for logistics excellence",
+    ],
     tags: ["Precision Logistics", "24/7 Monitoring", "Time-Critical"],
+    client: "F1 Teams & Event Organisers",
+    year: "2024",
+    duration: "10 days (build-up to race weekend)",
   },
   {
+    id: "gem-concert-tour",
     title: "G.E.M. Concert Tour",
     category: "Entertainment",
+    image: "/project-concert.png",
     description:
       "Managed first-mile logistics for G.E.M.'s Singapore concert tour, handling sensitive audio equipment, stage components, and time-critical setup requirements.",
+    overview:
+      "G.E.M.'s concert tour demands first-mile logistics of extraordinary precision. The shipment included sensitive audio equipment valued in the millions, custom stage components manufactured overseas, and time-critical rigging supplies. Every element had to arrive in sequence — sound before staging, staging before lighting — creating a dependency chain where one late truck cascades into a cancelled show.",
+    challenges: [
+      "Million-dollar audio equipment requiring climate-controlled transport",
+      "Sequential delivery dependencies — sound, staging, lighting in strict order",
+      "Venue loading dock constraints with limited time windows",
+      "International freight coordination from multiple origin countries",
+      "Fragile custom stage sets requiring white-glove handling",
+    ],
+    approach: [
+      "Assigned a dedicated concierge logistics manager for the entire tour leg",
+      "Created a detailed delivery Gantt chart with 30-minute precision windows",
+      "Deployed climate-controlled vehicles for audio equipment transport",
+      "Pre-staged equipment at a nearby holding warehouse for just-in-time delivery",
+      "Provided real-time WhatsApp updates directly to the tour production manager",
+    ],
+    results: [
+      "All shipments delivered on schedule — show went ahead without delay",
+      "Zero equipment damage across all fragile and high-value items",
+      "Tour production manager commended our proactive communication",
+      "Reduced venue loading time by 20% through pre-staging strategy",
+    ],
     tags: ["Sensitive Equipment", "First-Mile", "Stage Components"],
+    client: "Tour Production Team",
+    year: "2024",
+    duration: "5 days (load-in to show day)",
   },
   {
+    id: "sumec-container-operations",
     title: "Sumec Container Operations",
     category: "Marine & Industrial",
+    image: "/project-container.png",
     description:
       "Container trucking operations for in-gauge and out-of-gauge (OOG) cargo in Singapore, covering import collection from port terminals, delivery to customer sites, and empty container returns.",
+    overview:
+      "Sumec required a reliable container trucking partner for both standard in-gauge and complex out-of-gauge (OOG) cargo movements across Singapore. This involved import collection from multiple port terminals (PSA, Jurong, Tuas), delivery to varied customer sites ranging from industrial parks to congested urban locations, and the often-overlooked process of empty container returns — all while maintaining full regulatory compliance.",
+    challenges: [
+      "Out-of-gauge cargo requiring special permits, pilot vehicles, and route surveys",
+      "Multiple port terminals with different access protocols and operating hours",
+      "Tight turnaround requirements to avoid demurrage and detention charges",
+      "Coordinating empty container returns across depots with limited availability",
+      "End-to-end compliance including weight limits, axle load regulations, and port rules",
+    ],
+    approach: [
+      "Conducted a detailed end-to-end workflow review with safety and compliance assessment",
+      "Assigned dedicated fleet for OOG movements with experienced heavy-load drivers",
+      "Implemented a digital tracking dashboard for real-time container status visibility",
+      "Pre-booked return slots at container depots to eliminate waiting time",
+      "Weekly compliance audits and driver briefings on regulatory updates",
+    ],
+    results: [
+      "Zero compliance incidents across all movements",
+      "Reduced container turnaround time by 15% through pre-booking strategy",
+      "Achieved 98% on-time delivery rate across 500+ container movements",
+      "Client extended contract based on service quality and reliability",
+    ],
     tags: ["OOG Cargo", "Port Operations", "Compliance Review"],
+    client: "Sumec Group",
+    year: "2024–2025",
+    duration: "Ongoing contract",
   },
 ];
 
-function Projects() {
+const projectsData = projects; // alias for passing to components
+
+/* ------------------------------------------------------------------ */
+/*  Project Detail Sheet                                               */
+/* ------------------------------------------------------------------ */
+function ProjectDetail({
+  project,
+  open,
+  onOpenChange,
+}: {
+  project: Project | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  if (!project) return null;
+
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent
+        side="right"
+        className="w-full sm:max-w-2xl bg-background border-border p-0 overflow-y-auto"
+      >
+        {/* Hero image */}
+        <div className="relative h-56 sm:h-64 overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <span className="text-[11px] font-semibold tracking-wider uppercase text-amber-400 mb-2 block">
+              {project.category}
+            </span>
+            <SheetTitle className="text-2xl sm:text-3xl font-bold tracking-tight">
+              {project.title}
+            </SheetTitle>
+          </div>
+        </div>
+
+        {/* Meta bar */}
+        <div className="border-b border-border px-6 py-4 flex flex-wrap gap-x-6 gap-y-2">
+          <div className="flex items-center gap-2 text-sm">
+            <Users className="w-4 h-4 text-amber-500" />
+            <span className="text-muted-foreground">Client:</span>
+            <span className="font-medium">{project.client}</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <Calendar className="w-4 h-4 text-amber-500" />
+            <span className="text-muted-foreground">Year:</span>
+            <span className="font-medium">{project.year}</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <Clock className="w-4 h-4 text-amber-500" />
+            <span className="text-muted-foreground">Duration:</span>
+            <span className="font-medium">{project.duration}</span>
+          </div>
+        </div>
+
+        <SheetDescription className="sr-only">
+          Project details for {project.title}
+        </SheetDescription>
+
+        {/* Content */}
+        <div className="px-6 py-6 space-y-8">
+          {/* Overview */}
+          <div>
+            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+              <MapPinned className="w-4 h-4" />
+              Overview
+            </h4>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {project.overview}
+            </p>
+          </div>
+
+          {/* Challenges */}
+          <div>
+            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+              <Target className="w-4 h-4" />
+              Challenges
+            </h4>
+            <ul className="space-y-2.5">
+              {project.challenges.map((c) => (
+                <li
+                  key={c}
+                  className="flex items-start gap-3 text-sm text-muted-foreground"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500/60 shrink-0 mt-1.5" />
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Our Approach */}
+          <div>
+            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+              <Route className="w-4 h-4" />
+              Our Approach
+            </h4>
+            <ul className="space-y-2.5">
+              {project.approach.map((a) => (
+                <li
+                  key={a}
+                  className="flex items-start gap-3 text-sm text-muted-foreground"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Results */}
+          <div>
+            <h4 className="flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-amber-500 mb-3">
+              <TrendingUp className="w-4 h-4" />
+              Results
+            </h4>
+            <ul className="space-y-2.5">
+              {project.results.map((r) => (
+                <li
+                  key={r}
+                  className="flex items-start gap-3 text-sm text-foreground font-medium"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                  {r}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
+            {project.tags.map((t) => (
+              <span
+                key={t}
+                className="text-[11px] font-medium text-muted-foreground bg-white/5 px-3 py-1.5 rounded-lg border border-border"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="pt-2">
+            <a
+              href="#contact"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/20"
+            >
+              Discuss a Similar Project
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Case Studies / Projects                                           */
+/* ------------------------------------------------------------------ */
+function Projects({
+  onSelectProject,
+}: {
+  onSelectProject?: (id: string) => void;
+}) {
   const ref = useReveal();
 
   return (
@@ -698,10 +1037,11 @@ function Projects() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {projects.map((p, i) => (
-            <div
-              key={p.title}
-              className={`reveal reveal-delay-${i + 1} card-glow group relative p-7 rounded-2xl border border-border bg-card/50 overflow-hidden flex flex-col`}
+          {projectsData.map((p, i) => (
+            <button
+              key={p.id}
+              onClick={() => onSelectProject?.(p.id)}
+              className={`reveal reveal-delay-${i + 1} card-glow group relative p-7 rounded-2xl border border-border bg-card/50 overflow-hidden flex flex-col text-left cursor-pointer w-full`}
             >
               {/* Top accent line */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -713,17 +1053,20 @@ function Projects() {
               <p className="text-sm text-muted-foreground leading-relaxed flex-1">
                 {p.description}
               </p>
-              <div className="mt-5 pt-5 border-t border-border flex flex-wrap gap-1.5">
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="text-[11px] font-medium text-muted-foreground bg-white/5 px-2.5 py-1 rounded-md"
-                  >
-                    {t}
-                  </span>
-                ))}
+              <div className="mt-5 pt-5 border-t border-border flex items-center justify-between">
+                <div className="flex flex-wrap gap-1.5">
+                  {p.tags.slice(0, 2).map((t) => (
+                    <span
+                      key={t}
+                      className="text-[11px] font-medium text-muted-foreground bg-white/5 px-2.5 py-1 rounded-md"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-amber-500 group-hover:translate-x-1 transition-all duration-300" />
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -1040,19 +1383,36 @@ function Footer() {
 /*  Page                                                              */
 /* ------------------------------------------------------------------ */
 export default function HomePage() {
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+
+  const selectedProject = selectedProjectId
+    ? projectsData.find((p) => p.id === selectedProjectId) ?? null
+    : null;
+
+  const handleSelectProject = useCallback((id: string) => {
+    setSelectedProjectId(id);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar onSelectProject={handleSelectProject} />
       <main className="flex-1">
         <Hero />
         <About />
         <HybridModel />
         <Services />
         <Industries />
-        <Projects />
+        <Projects onSelectProject={handleSelectProject} />
         <Contact />
       </main>
       <Footer />
+      <ProjectDetail
+        project={selectedProject}
+        open={!!selectedProjectId}
+        onOpenChange={(open) => {
+          if (!open) setSelectedProjectId(null);
+        }}
+      />
     </div>
   );
 }
