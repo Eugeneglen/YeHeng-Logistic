@@ -4,7 +4,7 @@ export function BackgroundTexture() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 z-50 overflow-hidden pointer-events-none"
+      className="fixed inset-0 z-40 overflow-hidden pointer-events-none"
     >
       {/* Route lines */}
       <div className="bg-route-line bg-route-line-1" />
