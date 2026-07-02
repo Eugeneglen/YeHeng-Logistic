@@ -212,7 +212,7 @@
   position: absolute;
   pointer-events: none;
   width: 70vw;
-  height: 1px;
+  height: 2px;
   border-radius: 1px;
   will-change: transform;
 }
