@@ -150,20 +150,15 @@ function Navbar({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-            <img
-              src="/logo.png"
-              alt="YeHeng Logistics"
-              className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-105 brightness-0 invert"
-            />
-            <div className="flex flex-col leading-none">
-              <span className="text-sm font-semibold tracking-wide text-foreground">
-                YeHeng
-              </span>
-              <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
-                Logistics
-              </span>
-            </div>
-          </a>
+          <img
+            src="/logo.png"
+            alt="YeHeng Logistics"
+            className="w-8 h-8 object-contain transition-transform duration-300 group-hover:scale-105 brightness-0 invert"
+          />
+          <span className="text-sm font-semibold tracking-wide text-foreground">
+            YeHeng Logistics Pte Ltd
+          </span>
+        </a>
 
         {/* Desktop links — flush right */}
         <nav className="hidden md:flex items-center gap-1">
