@@ -150,9 +150,11 @@ function Navbar({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-lg bg-amber-600 flex items-center justify-center font-bold text-white text-sm tracking-tight transition-transform duration-300 group-hover:scale-105">
-            YH
-          </div>
+          <img
+            src="/logo.png"
+            alt="YeHeng Logistics"
+            className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-105 brightness-0 invert"
+          />
           <div className="flex flex-col leading-none">
             <span className="text-sm font-semibold tracking-wide text-foreground">
               YeHeng
@@ -1352,9 +1354,11 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center font-bold text-white text-xs">
-              YH
-            </div>
+            <img
+              src="/logo.png"
+              alt="YeHeng Logistics"
+              className="w-8 h-8 object-contain brightness-0 invert"
+            />
             <div>
               <span className="text-sm font-semibold">YeHeng Logistics Pte Ltd</span>
             </div>
