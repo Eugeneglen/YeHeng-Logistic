@@ -1346,25 +1346,27 @@ function Contact() {
 function Footer() {
   return (
     <footer className="border-t border-border py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="flex items-center justify-center gap-5 sm:gap-8 mb-3">
-          <img
-            src="/sla-logo-1.jpg"
-            alt="Singapore Logistics Association"
-            className="h-8 sm:h-9 object-contain brightness-0 invert opacity-50"
-          />
-          <img
-            src="/sla-logo-2.jpg"
-            alt="bizSAFE STAR"
-            className="h-8 sm:h-9 object-contain brightness-0 invert opacity-50"
-          />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 shrink-0">
+            <img
+              src="/sla-logo.png"
+              alt="Singapore Logistics Association"
+              className="h-7 sm:h-8 object-contain brightness-0 invert opacity-60"
+            />
+            <img
+              src="/bizsafe-logo.png"
+              alt="bizSAFE STAR"
+              className="h-7 sm:h-8 object-contain brightness-0 invert opacity-60"
+            />
+          </div>
+          <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
+            Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
+            (SLA). All business transactions are done in accordance to SLA Standard
+            Trading Conditions. A Singapore Logistics Association Standard Trading
+            Conditions copy is available on request.
+          </p>
         </div>
-        <p className="text-[11px] text-muted-foreground/70 max-w-2xl mx-auto leading-relaxed">
-          Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
-          (SLA). All business transactions are done in accordance to SLA Standard
-          Trading Conditions. A Singapore Logistics Association Standard Trading
-          Conditions copy is available on request.
-        </p>
       </div>
     </footer>
   );
