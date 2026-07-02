@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { BackgroundTexture } from "@/components/background-texture";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,17 +54,7 @@ export default function RootLayout({
         <div className="relative z-10">
           {children}
         </div>
-        {/* Background texture overlay — on top, pointer-events pass through */}
-        <div aria-hidden="true" className="fixed inset-0 z-50 overflow-hidden pointer-events-none">
-          {/* Route lines */}
-          <div className="bg-route-line bg-route-line-1" />
-          <div className="bg-route-line bg-route-line-2" />
-          <div className="bg-route-line bg-route-line-3" />
-          {/* Ambient glow blobs */}
-          <div className="bg-glow-blob bg-glow-blob-1" />
-          <div className="bg-glow-blob bg-glow-blob-2" />
-          <div className="bg-glow-blob bg-glow-blob-3" />
-        </div>
+        <BackgroundTexture />
         <Toaster />
       </body>
     </html>
