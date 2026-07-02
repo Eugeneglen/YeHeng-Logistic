@@ -148,63 +148,66 @@ function Navbar({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <img
-            src="/logo.png"
-            alt="YeHeng Logistics"
-            className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-105 brightness-0 invert"
-          />
-          <div className="flex flex-col leading-none">
-            <span className="text-sm font-semibold tracking-wide text-foreground">
-              YeHeng
-            </span>
-            <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
-              Logistics
-            </span>
-          </div>
-        </a>
+        {/* Logo + Desktop links — flush left */}
+        <div className="flex items-center gap-8">
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-3 group">
+            <img
+              src="/logo.png"
+              alt="YeHeng Logistics"
+              className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-105 brightness-0 invert"
+            />
+            <div className="flex flex-col leading-none">
+              <span className="text-sm font-semibold tracking-wide text-foreground">
+                YeHeng
+              </span>
+              <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+                Logistics
+              </span>
+            </div>
+          </a>
 
-        {/* Desktop links */}
-        <nav className="hidden md:flex items-center gap-1">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5"
-            >
-              {l.label}
-            </a>
-          ))}
-          {/* Projects dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 inline-flex items-center gap-1">
-                Projects
-                <ChevronDown className="w-3.5 h-3.5 opacity-50" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="center"
-              className="bg-card border-border w-64"
-            >
-              {projectsData.map((p) => (
-                <DropdownMenuItem
-                  key={p.id}
-                  onClick={() => handleProjectSelect(p.id)}
-                  className="cursor-pointer py-3 focus:bg-amber-600/10 focus:text-amber-400"
-                >
-                  <div>
-                    <div className="text-sm font-medium">{p.title}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {p.category}
+          {/* Desktop links */}
+          <nav className="hidden md:flex items-center gap-1">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5"
+              >
+                {l.label}
+              </a>
+            ))}
+            {/* Projects dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 inline-flex items-center gap-1">
+                  Projects
+                  <ChevronDown className="w-3.5 h-3.5 opacity-50" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                className="bg-card border-border w-64"
+              >
+                {projectsData.map((p) => (
+                  <DropdownMenuItem
+                    key={p.id}
+                    onClick={() => handleProjectSelect(p.id)}
+                    className="cursor-pointer py-3 focus:bg-amber-600/10 focus:text-amber-400"
+                  >
+                    <div>
+                      <div className="text-sm font-medium">{p.title}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {p.category}
+                      </div>
                     </div>
-                  </div>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </nav>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </nav>
+        </div>
 
         {/* Mobile menu toggle */}
         <div className="flex items-center gap-3">
