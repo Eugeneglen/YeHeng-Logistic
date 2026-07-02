@@ -88,7 +88,7 @@
   body {
     @apply bg-background text-foreground;
     /* 1. Dot-grid texture */
-    background-image: radial-gradient(circle, oklch(1 0 0 / 0.13) 1px, transparent 1px);
+    background-image: radial-gradient(circle, oklch(1 0 0 / 0.145) 1px, transparent 1px);
     background-size: 36px 36px;
   }
   html {
@@ -218,18 +218,18 @@
 }
 .bg-route-line-1 {
   top: 20%;
-  background: linear-gradient(90deg, transparent 5%, oklch(0.646 0.222 41.116 / 0.39) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, oklch(0.646 0.222 41.116 / 0.43) 50%, transparent 95%);
   animation: route-drift-1 25s linear infinite;
 }
 .bg-route-line-2 {
   top: 50%;
-  background: linear-gradient(90deg, transparent 5%, oklch(0.646 0.222 41.116 / 0.28) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, oklch(0.646 0.222 41.116 / 0.31) 50%, transparent 95%);
   animation: route-drift-2 35s linear infinite;
   width: 80vw;
 }
 .bg-route-line-3 {
   top: 78%;
-  background: linear-gradient(90deg, transparent 5%, oklch(0.646 0.222 41.116 / 0.22) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, oklch(0.646 0.222 41.116 / 0.245) 50%, transparent 95%);
   animation: route-drift-3 45s linear infinite;
   width: 50vw;
 }
