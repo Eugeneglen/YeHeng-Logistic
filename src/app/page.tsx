@@ -270,17 +270,6 @@ function Navbar({
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <img
-          src="/hero-bg.png"
-          alt="Singapore port aerial view"
-          className="w-full h-full object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/90 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-background/90" />
-      </div>
-
       {/* Ambient glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-600/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -1356,32 +1345,59 @@ function Contact() {
 /* ------------------------------------------------------------------ */
 function Footer() {
   return (
-    <footer className="border-t border-border py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
+    <footer className="border-t border-border">
+      {/* SLA Membership */}
+      <div className="border-b border-border py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex items-center justify-center gap-6 sm:gap-10 mb-5">
             <img
-              src="/logo.png"
-              alt="YeHeng Logistics"
-              className="w-8 h-8 object-contain brightness-0 invert"
+              src="/sla-logo-1.jpg"
+              alt="SLA Member Logo"
+              className="h-12 sm:h-14 object-contain brightness-0 invert opacity-70"
             />
-            <div>
-              <span className="text-sm font-semibold">YeHeng Logistics Pte Ltd</span>
-            </div>
+            <img
+              src="/sla-logo-2.jpg"
+              alt="SLA Standard Trading Conditions"
+              className="h-12 sm:h-14 object-contain brightness-0 invert opacity-70"
+            />
           </div>
-          <p className="text-xs text-muted-foreground text-center">
-            Precision. Control. Personal. &mdash; Singapore 2026
+          <p className="text-xs text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Ye Heng Logistic Pte Ltd is a Member of Singapore Logistics Association
+            (SLA). All business transactions are done in accordance to SLA Standard
+            Trading Conditions. A Singapore Logistics Association Standard Trading
+            Conditions copy is available on request.
           </p>
-          <div className="flex items-center gap-4 text-muted-foreground">
-            <a href="#about" className="text-xs hover:text-foreground transition-colors">
-              About
-            </a>
-            <a href="#services" className="text-xs hover:text-foreground transition-colors">
-              Services
-            </a>
-            <a href="#contact" className="text-xs hover:text-foreground transition-colors">
-              Contact
-            </a>
+        </div>
+      </div>
+
+      {/* Main footer */}
+      <div className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="YeHeng Logistics"
+                className="w-8 h-8 object-contain brightness-0 invert"
+              />
+              <div>
+                <span className="text-sm font-semibold">YeHeng Logistics Pte Ltd</span>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground text-center">
+              Precision. Control. Personal. &mdash; Singapore 2026
+            </p>
+            <div className="flex items-center gap-4 text-muted-foreground">
+              <a href="#about" className="text-xs hover:text-foreground transition-colors">
+                About
+              </a>
+              <a href="#services" className="text-xs hover:text-foreground transition-colors">
+                Services
+              </a>
+              <a href="#contact" className="text-xs hover:text-foreground transition-colors">
+                Contact
+              </a>
+            </div>
           </div>
         </div>
       </div>
