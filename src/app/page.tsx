@@ -1334,75 +1334,9 @@ function Contact() {
             )}
           </div>
 
-          {/* Contact info */}
-          <div className="reveal reveal-delay-2 lg:col-span-2 space-y-4 sm:space-y-6">
-            <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card/50">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                {/* Left column: Person & Phone */}
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
-                      <Users className="w-5 h-5 text-amber-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">Yeo Hui Qi</p>
-                      <p className="text-sm text-muted-foreground">
-                        General Manager
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5 text-amber-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">Phone</p>
-                      <a
-                        href="tel:+6584981676"
-                        className="text-sm text-muted-foreground hover:text-amber-500 transition-colors"
-                      >
-                        +65 8498 1676
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                {/* Right column: Email & Office */}
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
-                      <Mail className="w-5 h-5 text-amber-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">Email</p>
-                      <a
-                        href="mailto:info@yeheng.com.sg"
-                        className="text-sm text-muted-foreground hover:text-amber-500 transition-colors"
-                      >
-                        info@yeheng.com.sg
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-amber-600/10 flex items-center justify-center shrink-0">
-                      <MapPin className="w-5 h-5 text-amber-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">Office</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        21 Toh Guan Road East
-                        <br />
-                        #09-10 Toh Guan Centre
-                        <br />
-                        Singapore 608609
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick value props */}
-            <div className="p-4 sm:p-6 rounded-2xl border border-amber-600/20 bg-amber-600/5">
+          {/* Quick value props */}
+          <div className="reveal reveal-delay-2 lg:col-span-2">
+            <div className="p-4 sm:p-6 rounded-2xl border border-amber-600/20 bg-amber-600/5 sticky top-24">
               <h4 className="font-semibold text-sm mb-3 sm:mb-4">Why choose YeHeng?</h4>
               <ul className="space-y-2 sm:space-y-3">
                 {[
