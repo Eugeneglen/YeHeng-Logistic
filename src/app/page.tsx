@@ -939,6 +939,31 @@ function ProjectDetail({
           </div>
         </div>
 
+        {/* Infographic button */}
+        <div className="px-6 py-3">
+          {project.id === "gem-concert-tour" && (
+            <InfographicButton
+              label="Orchestrating the Stage"
+              imageSrc="/infographic-gem-concert.jpg"
+              altText="Orchestrating the Stage: G.E.M. Concert Tour logistics infographic"
+            />
+          )}
+          {project.id === "singapore-grand-prix" && (
+            <InfographicButton
+              label="Precision Under Pressure"
+              imageSrc="/infographic-grandprix.jpg"
+              altText="Precision Under Pressure: Singapore Grand Prix logistics infographic"
+            />
+          )}
+          {project.id === "sumec-container-operations" && (
+            <InfographicButton
+              label="Prudence for Advancement"
+              imageSrc="/infographic-container.jpg"
+              altText="Prudence for Advancement: SUMEC Container Operations logistics infographic"
+            />
+          )}
+        </div>
+
         <SheetDescription className="sr-only">
           Project details for {project.title}
         </SheetDescription>
@@ -1026,7 +1051,7 @@ function ProjectDetail({
           </div>
 
           {/* CTA */}
-          <div className="pt-2 flex flex-wrap items-center gap-3">
+          <div className="pt-2">
             <a
               href="#contact"
               onClick={() => onOpenChange(false)}
@@ -1035,27 +1060,6 @@ function ProjectDetail({
               Discuss a Similar Project
               <ArrowRight className="w-4 h-4" />
             </a>
-            {project.id === "gem-concert-tour" && (
-              <InfographicButton
-                label="Orchestrating the Stage"
-                imageSrc="/infographic-gem-concert.jpg"
-                altText="Orchestrating the Stage: G.E.M. Concert Tour logistics infographic"
-              />
-            )}
-            {project.id === "singapore-grand-prix" && (
-              <InfographicButton
-                label="Precision Under Pressure"
-                imageSrc="/infographic-grandprix.jpg"
-                altText="Precision Under Pressure: Singapore Grand Prix logistics infographic"
-              />
-            )}
-            {project.id === "sumec-container-operations" && (
-              <InfographicButton
-                label="Prudence for Advancement"
-                imageSrc="/infographic-container.jpg"
-                altText="Prudence for Advancement: SUMEC Container Operations logistics infographic"
-              />
-            )}
           </div>
         </div>
       </SheetContent>
