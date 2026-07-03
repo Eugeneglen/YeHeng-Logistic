@@ -97,7 +97,7 @@ export function MouseRadar() {
             height: 700,
             top: 0,
             left: 0,
-            background: `radial-gradient(circle, ${AMBER_BRIGHT}0.14) 0%, ${AMBER_MID}0.06) 40%, transparent 68%)`,
+            background: `radial-gradient(circle, ${AMBER_BRIGHT}0.126) 0%, ${AMBER_MID}0.054) 40%, transparent 68%)`,
             filter: "blur(6px)",
           }}
         />
@@ -110,7 +110,7 @@ export function MouseRadar() {
             height: 600,
             top: 50,
             left: 50,
-            background: `conic-gradient(from 0deg, ${AMBER_BRIGHT}0.22) 0deg, ${AMBER_BRIGHT}0.08) 30deg, transparent 70deg, transparent 360deg)`,
+            background: `conic-gradient(from 0deg, ${AMBER_BRIGHT}0.198) 0deg, ${AMBER_BRIGHT}0.072) 30deg, transparent 70deg, transparent 360deg)`,
             animation: "radar-sweep 3.5s linear infinite",
             maskImage: "radial-gradient(circle, black 15%, transparent 68%)",
             WebkitMaskImage: "radial-gradient(circle, black 15%, transparent 68%)",
@@ -127,7 +127,7 @@ export function MouseRadar() {
               height: Math.round(580 * scale),
               top: Math.round(60 + 290 * (1 - scale)),
               left: Math.round(60 + 290 * (1 - scale)),
-              border: `1px solid ${AMBER_BRIGHT}0.08)`,
+              border: `1px solid ${AMBER_BRIGHT}0.072)`,
             }}
           />
         ))}
@@ -140,7 +140,7 @@ export function MouseRadar() {
             height: 1,
             top: 350,
             left: 60,
-            background: `linear-gradient(90deg, transparent, ${AMBER_BRIGHT}0.07) 25%, ${AMBER_BRIGHT}0.07) 75%, transparent)`,
+            background: `linear-gradient(90deg, transparent, ${AMBER_BRIGHT}0.063) 25%, ${AMBER_BRIGHT}0.063) 75%, transparent)`,
           }}
         />
         <div
@@ -150,7 +150,7 @@ export function MouseRadar() {
             height: 580,
             top: 60,
             left: 350,
-            background: `linear-gradient(180deg, transparent, ${AMBER_BRIGHT}0.07) 25%, ${AMBER_BRIGHT}0.07) 75%, transparent)`,
+            background: `linear-gradient(180deg, transparent, ${AMBER_BRIGHT}0.063) 25%, ${AMBER_BRIGHT}0.063) 75%, transparent)`,
           }}
         />
 
@@ -162,8 +162,8 @@ export function MouseRadar() {
             height: 8,
             top: 346,
             left: 346,
-            background: `${AMBER_BRIGHT}0.7)`,
-            boxShadow: `0 0 16px 4px ${AMBER_BRIGHT}0.35), 0 0 40px 8px ${AMBER_MID}0.15)`,
+            background: `${AMBER_BRIGHT}0.63)`,
+            boxShadow: `0 0 16px 4px ${AMBER_BRIGHT}0.315), 0 0 40px 8px ${AMBER_MID}0.135)`,
           }}
         />
 
@@ -180,7 +180,7 @@ export function MouseRadar() {
               height: 580,
               top: 60,
               left: 60,
-              border: `1.5px solid ${AMBER_BRIGHT}0.4)`,
+              border: `1.5px solid ${AMBER_BRIGHT}0.36)`,
               opacity: 0,
             }}
           />

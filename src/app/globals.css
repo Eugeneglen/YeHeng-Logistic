@@ -302,12 +302,12 @@
 @keyframes radar-pulse {
   0% {
     transform: scale(0.04);
-    opacity: 0.7;
+    opacity: 0.63;
     border-width: 2.5px;
-    border-color: oklch(0.72 0.19 55 / 0.5);
+    border-color: oklch(0.72 0.19 55 / 0.45);
   }
   30% {
-    opacity: 0.35;
+    opacity: 0.315;
     border-width: 1.5px;
   }
   100% {
