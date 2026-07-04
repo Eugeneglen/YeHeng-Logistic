@@ -188,7 +188,7 @@ The `InfographicButton` component renders a styled button that opens a full-size
 
 ---
 
-## Public Assets
+## Public Assets (12 files)
 
 | File | Purpose |
 |---|---|
@@ -197,8 +197,12 @@ The `InfographicButton` component renders a styled button that opens a full-size
 | `sla-logo.png` | Singapore Logistics Association certification |
 | `bizsafe-logo.png` | BizSafe STAR certification |
 | `hero-port.png` | Singapore port night image (hero background) |
-| `project-*.png` | Project card thumbnails (3 files) |
-| `infographic-*.jpg` | Project infographic full images (3 files) |
+| `project-concert.png` | Concert project thumbnail |
+| `project-container.png` | Container project thumbnail |
+| `project-grandprix.png` | Grand Prix project thumbnail |
+| `infographic-gem-concert.jpg` | G.E.M. Concert Tour infographic |
+| `infographic-grandprix.jpg` | F1 Grand Prix infographic |
+| `infographic-container.jpg` | Container shipping infographic |
 | `robots.txt` | Search engine crawl permissions |
 
 ---
