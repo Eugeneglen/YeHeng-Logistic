@@ -17,12 +17,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Phone,
   Mail,
   MapPin,
@@ -140,11 +134,6 @@ function Navbar({
     { label: "Contact", href: "#contact" },
   ];
 
-  const handleProjectSelect = (id: string) => {
-    onSelectProject?.(id);
-    setMobileOpen(false);
-  };
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -177,34 +166,7 @@ function Navbar({
                 {l.label}
               </a>
             ))}
-            {/* Projects dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="hidden md:inline-flex px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-md hover:bg-white/5 items-center gap-1">
-                  Projects
-                  <ChevronDown className="w-3.5 h-3.5 opacity-50" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="bg-card border-border w-64"
-              >
-                {projectsData.map((p) => (
-                  <DropdownMenuItem
-                    key={p.id}
-                    onClick={() => handleProjectSelect(p.id)}
-                    className="cursor-pointer py-3 focus:bg-amber-600/10 focus:text-amber-400"
-                  >
-                    <div>
-                      <div className="text-sm font-medium">{p.title}</div>
-                      <div className="text-xs text-muted-foreground mt-0.5">
-                        {p.category}
-                      </div>
-                    </div>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+
           {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -249,21 +211,7 @@ function Navbar({
               {l.label}
             </a>
           ))}
-          {/* Mobile project sub-links */}
-          <div className="pl-3 border-l-2 border-border ml-3 space-y-0.5 mt-2">
-            <p className="px-3 py-1 text-[10px] font-semibold tracking-wider uppercase text-amber-500">
-              Projects
-            </p>
-            {projectsData.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => handleProjectSelect(p.id)}
-                className="block w-full text-left px-3 py-2 text-sm text-muted-foreground hover:text-amber-400 hover:bg-white/5 rounded-lg transition-colors"
-              >
-                {p.title}
-              </button>
-            ))}
-          </div>
+
         </nav>
       </div>
     </header>
