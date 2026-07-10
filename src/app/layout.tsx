@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { BackgroundTexture } from "@/components/background-texture";
 import { MouseRadar } from "@/components/mouse-radar";
+import { ErrorLogger } from "@/components/error-logger";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,9 +54,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
         suppressHydrationWarning
       >
-        <div className="relative overflow-x-hidden">
-          {children}
-        </div>
+        <ErrorLogger>
+          <div className="relative overflow-x-hidden">
+            {children}
+          </div>
+        </ErrorLogger>
         <BackgroundTexture />
         <MouseRadar />
         <Toaster />
