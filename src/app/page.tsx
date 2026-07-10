@@ -113,11 +113,7 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
 /* ------------------------------------------------------------------ */
 /*  Navigation                                                        */
 /* ------------------------------------------------------------------ */
-function Navbar({
-  onSelectProject,
-}: {
-  onSelectProject?: (id: string) => void;
-}) {
+function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -1358,7 +1354,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar onSelectProject={handleSelectProject} />
+      <Navbar />
       <main className="flex-1">
         <Hero />
         <About />
